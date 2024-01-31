@@ -1,0 +1,37 @@
+/* :root {
+    --background: #e6e6e6;
+    --foreground: #292929;
+    --shadowcolor: #c1c1c1;
+    --maincolor: #ebebeb;
+}
+
+[data-theme='dark'] {
+    --background: #1d1d1d;
+    --foreground: #efe4d5;
+    --shadowcolor: #616161;
+    --maincolor: #242424;
+} */
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.wrapper {
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+main{
+    flex-grow: 1;
+
+}
