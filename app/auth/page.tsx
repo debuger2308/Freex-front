@@ -1,10 +1,12 @@
 "use client"
 import Link from 'next/link';
 import './auth.css'
+import { useState } from 'react';
 
 const Auth = () => {
 
-    // const []
+    const [authErrors, setAuthErros] = useState('')
+    const [isDataLoading, setIsDataLoading] = useState(false)
 
     return (
         <main className="auth">
@@ -16,32 +18,85 @@ const Auth = () => {
                 </div>
 
                 <form
-                    onSubmit={(e) => e.preventDefault()}
+
+                    action={async (formData) => {
+                        setIsDataLoading(true)
+                        const user = {
+                            nickname: formData.get('nickname'),
+                            password: formData.get('password')
+                        }
+
+                        try {
+                            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+                                method: "POST",
+                                body: JSON.stringify(user),
+
+                                headers: {
+                                    "Content-Type": "application/json",
+
+                                },
+                            })
+                            const json = await res.json()
+                            if (res.status === 406 && json) {
+                                setAuthErros('Wrong nickname or password')
+                            }
+                            if (res.status === 401 && json.message) {
+                                setAuthErros(json.message)
+                            }
+                            if(res.status === 201){
+                                console.log(json);
+                            }
+                        } catch (error) {
+                            alert(error)
+                        }
+                        setIsDataLoading(false)
+                    }}
                     className="auth__form"
                 >
 
                     <div className="auth__input-field">
-                        <input type="text" id='nickname' name="nickname" className='auth__input' placeholder=' ' />
+                        <input
+                            onChange={() => {
+                                setAuthErros('')
+                            }}
+                            type="text"
+                            id='nickname'
+                            name="nickname"
+                            className='auth__input'
+                            placeholder=' '
+                            required />
                         <label htmlFor="nickname" className="auth__input-label">Nickname</label>
                     </div>
                     <div className="auth__input-field">
-                        <input type="text" id='password' name="password" className='auth__input' placeholder=' ' />
+                        <input
+                            onChange={() => {
+                                setAuthErros('')
+                            }}
+                            type="password"
+                            id='password'
+                            name="password"
+                            className='auth__input'
+                            placeholder=' '
+                            required />
                         <label htmlFor="password" className="auth__input-label">Password</label>
                     </div>
 
-
+                    <div className="auth__errors">
+                        <strong className='auth__error'>{authErrors}</strong>
+                    </div>
 
                     <button
                         type="submit"
                         className="auth__submit-btn"
+                        disabled={isDataLoading}
                     >
                         Log In
                     </button>
                     <Link href="/reset-password" className='auth__link-reset-pass'>
                         Forgot password?
                     </Link>
-                    
-                    <hr className='auth__decoration-line'/>
+
+                    <hr className='auth__decoration-line' />
 
                     <Link href="/registration" className='auth__link-create-user'>
                         Create new account

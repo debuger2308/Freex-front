@@ -17,14 +17,15 @@
 }
 
 .auth__title {
-    font-size: 36px;
+    margin-top: 30px;
+    font-size: 46px;
     color: #95ff00;
 }
 
 .auth__content-text {
     margin-top: 10px;
     font-size: 20px;
-    max-width: 300px;
+    line-height: 28px;
 }
 
 
@@ -83,7 +84,15 @@
     border-bottom: 1px solid #95ff00;
 }
 
-
+.auth__errors {
+    max-width: 300px;
+}
+.auth__error {
+    
+    display: block;
+    color: #bd6565;
+    margin: 5px 0;
+}
 
 .auth__submit-btn {
     font-weight: 600;
@@ -99,6 +108,14 @@
 .auth__submit-btn:hover {
     background-color: #ffffff;
     color: black;
+}
+
+.auth__submit-btn:disabled {
+    border: 1px solid #5c5c5c;
+}
+.auth__submit-btn:disabled:hover {
+    background-color: unset;
+    color: #252525;
 }
 
 .auth__link-reset-pass{
