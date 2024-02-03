@@ -20,6 +20,7 @@ const Auth = () => {
                 <form
 
                     action={async (formData) => {
+                        setAuthErros('')
                         setIsDataLoading(true)
                         const user = {
                             nickname: formData.get('nickname'),
@@ -43,8 +44,12 @@ const Auth = () => {
                             if (res.status === 401 && json.message) {
                                 setAuthErros(json.message)
                             }
-                            if(res.status === 201){
-                                console.log(json);
+                            if (res.status === 201) {
+                                localStorage.setItem(process.env.NEXT_PUBLIC_LCSTORAGE_AUTH || '', JSON.stringify({
+                                    isAuth: true,
+                                    token: json.token
+                                }))
+                                console.log(json.token);
                             }
                         } catch (error) {
                             alert(error)

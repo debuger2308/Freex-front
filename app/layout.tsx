@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import './global.css'
 import './reset.css'
 import Footer from '@/components/footer/Footer'
+import StoreProvider from './StoreProvider'
 
 export const dynamic = 'force-dynamic'
 const inter = Inter({ subsets: ['latin'] })
@@ -29,7 +30,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <StoreProvider>
+              {children}
+            </StoreProvider>
             <Footer />
           </ThemeProvider>
         </div>

@@ -112,6 +112,7 @@
 
 .auth__submit-btn:disabled {
     border: 1px solid #5c5c5c;
+    transition: none;
 }
 .auth__submit-btn:disabled:hover {
     background-color: unset;
