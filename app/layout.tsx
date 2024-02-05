@@ -4,7 +4,8 @@ import { Inter } from 'next/font/google'
 import './global.css'
 import './reset.css'
 import Footer from '@/components/footer/Footer'
-import StoreProvider from './StoreProvider'
+
+
 
 export const dynamic = 'force-dynamic'
 const inter = Inter({ subsets: ['latin'] })
@@ -24,17 +25,19 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="wrapper">
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <StoreProvider>
+
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+
               {children}
-            </StoreProvider>
-            <Footer />
-          </ThemeProvider>
+
+              <Footer />
+            </ThemeProvider>
+
         </div>
       </body>
     </html>

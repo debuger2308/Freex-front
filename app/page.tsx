@@ -1,10 +1,30 @@
 
+"use client"
+
+import { useRouter } from "next/navigation"
+
+
+
 
 
 export default function Home() {
-  return (
-    <main>
+    const router = useRouter()
+    return (
+        <main>
+            <button onClick={async () => {
 
-    </main>
-  )
+                const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+                    method: 'POST',
+                    credentials: 'include'
+                })
+
+                const resApi = await fetch('/api/auth/logout', {
+                    method: 'POST'
+                })
+                if (resApi.status == 200) router.refresh()
+            }}>
+                logout
+            </button>
+        </main>
+    )
 }

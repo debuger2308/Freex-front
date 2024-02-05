@@ -2,11 +2,43 @@
 import Link from 'next/link';
 import './auth.css'
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { IUserCredentials } from '@/interfaces/IUserCredentials';
+
 
 const Auth = () => {
 
+    async function restApiLogin(user: IUserCredentials) {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+            body: JSON.stringify(user),
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json",
+            },
+            credentials: "include"
+        })
+        return res
+    }
+
+    async function nextApiLogin(data: { token: string }) {
+        const nextApiResponse = await fetch('/api/auth/login', {
+            body: JSON.stringify({
+                isAuth: true,
+                token: data.token
+            }),
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json"
+            },
+        })
+        return nextApiResponse
+    }
+
     const [authErrors, setAuthErros] = useState('')
     const [isDataLoading, setIsDataLoading] = useState(false)
+
+    const router = useRouter()
 
     return (
         <main className="auth">
@@ -23,36 +55,17 @@ const Auth = () => {
                         setAuthErros('')
                         setIsDataLoading(true)
                         const user = {
-                            nickname: formData.get('nickname'),
-                            password: formData.get('password')
+                            nickname: String(formData.get('nickname')),
+                            password: String(formData.get('password'))
                         }
-
-                        try {
-                            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-                                method: "POST",
-                                body: JSON.stringify(user),
-
-                                headers: {
-                                    "Content-Type": "application/json",
-
-                                },
-                            })
-                            const json = await res.json()
-                            if (res.status === 406 && json) {
-                                setAuthErros('Wrong nickname or password')
-                            }
-                            if (res.status === 401 && json.message) {
-                                setAuthErros(json.message)
-                            }
-                            if (res.status === 201) {
-                                localStorage.setItem(process.env.NEXT_PUBLIC_LCSTORAGE_AUTH || '', JSON.stringify({
-                                    isAuth: true,
-                                    token: json.token
-                                }))
-                                console.log(json.token);
-                            }
-                        } catch (error) {
-                            alert(error)
+                        const restApiResponse = await restApiLogin(user)
+                        if (restApiResponse.status === 401 || restApiResponse.status === 406) {
+                            setAuthErros('Wrong nickname or password')
+                        }
+                        else {
+                            const json = await restApiResponse.json()
+                            const apiResponse = await nextApiLogin(json)
+                            if (await apiResponse.status === 201) router.refresh()
                         }
                         setIsDataLoading(false)
                     }}
