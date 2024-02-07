@@ -12,34 +12,37 @@ const inter = Inter({ subsets: ['latin'] })
 
 
 export const metadata: Metadata = {
-  title: 'Freex',
-  description: 'Dating platform',
+	title: 'Freex',
+	description: 'Dating platform',
 }
 
-export default function RootLayout({
-  children,
+export default async function RootLayout({
+	children,
 }: {
-  children: React.ReactNode
+	children: React.ReactNode
 }) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <div className="wrapper">
 
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
+	
 
-              {children}
+	return (
+		<html lang="en">
+			<body className={inter.className}>
+				<div className="wrapper">
 
-              <Footer />
-            </ThemeProvider>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
 
-        </div>
-      </body>
-    </html>
-  )
+						{children}
+
+						<Footer />
+					</ThemeProvider>
+
+				</div>
+			</body>
+		</html>
+	)
 }

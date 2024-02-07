@@ -40,6 +40,8 @@ const Auth = () => {
 
     const router = useRouter()
 
+    
+
     return (
         <main className="auth">
 
@@ -65,7 +67,7 @@ const Auth = () => {
                         else {
                             const json = await restApiResponse.json()
                             const apiResponse = await nextApiLogin(json)
-                            if (await apiResponse.status === 201) router.refresh()
+                            if (apiResponse.status === 201) router.refresh()
                         }
                         setIsDataLoading(false)
                     }}
