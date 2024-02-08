@@ -25,11 +25,6 @@ export default function Home() {
                 })
                 if (resApi.status == 200) router.refresh()
                 
-                // const res = await fetch(`/api/auth/login`, {
-                //     method: 'POST',
-                //     credentials: 'include',
-                // })
-                // router.refresh()
             }}>
                 logout
             </button>

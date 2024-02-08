@@ -40,8 +40,6 @@ const Auth = () => {
 
     const router = useRouter()
 
-    
-
     return (
         <main className="auth">
 
@@ -61,10 +59,11 @@ const Auth = () => {
                             password: String(formData.get('password'))
                         }
                         const restApiResponse = await restApiLogin(user)
+
                         if (restApiResponse.status === 401 || restApiResponse.status === 406) {
                             setAuthErros('Wrong nickname or password')
                         }
-                        else {
+                        else if (restApiResponse.status === 201) {
                             const json = await restApiResponse.json()
                             const apiResponse = await nextApiLogin(json)
                             if (apiResponse.status === 201) router.refresh()
@@ -95,8 +94,8 @@ const Auth = () => {
                             type="password"
                             id='password'
                             name="password"
-                            className='auth__input'
                             placeholder=' '
+                            className='auth__input'
                             required />
                         <label htmlFor="password" className="auth__input-label">Password</label>
                     </div>
@@ -118,15 +117,13 @@ const Auth = () => {
 
                     <hr className='auth__decoration-line' />
 
-                    <Link href="/registration" className='auth__link-create-user'>
+                    <Link href="/auth/registration" className='auth__link-create-user'>
                         Create new account
                     </Link>
                 </form>
 
 
             </div>
-
-
 
         </main>
     );
