@@ -1,0 +1,139 @@
+.userdata {}
+
+.userdata__container {
+    height: 100%;
+    padding: 50px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userdata__title {
+    font-size: 32px;
+    color: var(--additional);
+}
+
+.userdata__form {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    margin-top: 50px;
+}
+
+.userdata__get-coords {}
+
+.get-coords__warning {}
+
+.coord-input {
+    display: none;
+}
+
+.userdata-label {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    font-size: 24px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userdata__label-gender {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all .3s;
+}
+
+.userdata__label-gender:hover {
+    transition: all .3s;
+    color: var(--additional);
+}
+
+.userdata-label--ContentEdit {
+    text-align: start;
+    cursor: text;
+}
+
+.userdata__content-div {
+    word-break: break-all;
+
+}
+
+.userdata__input {
+    color: #005f19;
+    border-radius: 20px;
+    margin-top: 10px;
+    background-color: unset;
+    width: 100%;
+    font-size: 24px;
+    padding: 10px;
+    border: 1px solid var(--shadowcolor);
+    transition: all .3s;
+}
+
+.userdata__input:hover,
+.userdata__input:focus {
+    border: 1px solid var(--maincolor);
+}
+
+.userdata__input-gender {
+    margin-right: 5px;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--shadowcolor);
+    transition: all .3s;
+}
+
+.userdata__label-gender:hover .userdata__input-gender {
+    border: 1px solid #005f19;
+}
+
+.userdata__input-gender:checked {
+    background-color: #005f19;
+}
+
+.userdata-label__age {
+    margin-top: 10px;
+    border-radius: 20px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--shadowcolor);
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    transition: all .3s;
+}
+
+.userdata-label__age:hover {
+    border: 1px solid var(--maincolor);
+}
+
+.userdata__input-age {
+    text-align: center;
+}
+
+
+.userdata__input-desc {
+    display: none;
+
+}
+
+.userdata__form-btn {
+    margin-top: 20px;
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: unset;
+    border: 3px solid var(--shadowcolor);
+    transition: all .3s;
+}
+
+.userdata__form-btn:hover {
+    border: 3px solid var(--maincolor);
+    background-color: var(--foreground);
+    color: var(--background);
+}

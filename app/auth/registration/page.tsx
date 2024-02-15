@@ -56,6 +56,7 @@ const Registration = () => {
                     onChange={clearErrors}
                     className='registration__form'
                     action={async (formData) => {
+                       
                         if (String(formData.get('password')) !== String(formData.get('reapeat-password'))) {
                             setFormErr([...formErr, 'Password mismatch'])
                             setRepeatPassErr(true)
@@ -81,7 +82,7 @@ const Registration = () => {
                         }
                         else if (restApiResponse.status === 409) {
                             setNicknameErr(true)
-                            setFormErr([...formErr, 'User with this nickname already exist'])
+                            setFormErr([ 'User with this nickname already exist'])
                         }
                     }}
                 >

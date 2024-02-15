@@ -1,21 +1,27 @@
-/* :root {
-    --background: #e6e6e6;
-    --foreground: #292929;
-    --shadowcolor: #c1c1c1;
-    --maincolor: #ebebeb;
+:root {
+    --background: #dcdcdc;
+    --foreground: #000000;
+    --shadowcolor: #5c5c5c;
+    --maincolor: #5ea500;
+    --additional: #416f00;
+    --error: brown;
 }
 
 [data-theme='dark'] {
     --background: #1d1d1d;
-    --foreground: #efe4d5;
-    --shadowcolor: #616161;
-    --maincolor: #242424;
-} */
+    --foreground: #ebebeb;
+    --shadowcolor: #5c5c5c;
+    --maincolor: #95ff00;
+    --additional: #ddffad;
+    --error: brown;
+
+}
 
 body {
     display: flex;
     flex-direction: column;
-    margin: 0
+    margin: 0;
+    background-color: var(--background);
 }
 
 .container {
@@ -38,5 +44,26 @@ main {
 }
 
 
-/*------- Blocks ---------*/
+.header__color-theme {
+    border: 1px solid var(--foreground);
+    padding: 5px 10px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+}
 
+.header__color-btn {
+    background: unset;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.header__color-svg {
+    transition: all .3s;
+    fill: var(--shadowcolor);
+}
+
+.header__color-svg--active {
+    fill: var(--foreground);
+}

@@ -5,10 +5,25 @@ import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest, res: NextApiResponse) {
 
-    return new Response("Updated", {
-        status: 201,
+    const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: new Headers(req.headers)
     })
 
+    if (backendRes.status === 201) {
+        const data = await backendRes.json()
+        cookies().set('auth-info', JSON.stringify({
+            isAuth: true,
+            token: data.token
+        }), { maxAge: 1000 * 60 })
+    }
+    else {
+        return new Response("Unauthorized", {
+            status: 401,
+        })
+    }
 
+    return Response.json(cookies().get('auth-info'))
 
 }

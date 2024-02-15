@@ -12,12 +12,12 @@
 
 .registration__logo {
     font-size: 46px;
-    color: #95ff00;
+    color: var(--maincolor);
 }
 
 .registration__title {
     margin-top: 10px;
-    color: #ddffad;
+    color: var(--additional);
 }
 
 .registration__form {
@@ -26,7 +26,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #ffffff;
+    border: 1px solid var(--shadowcolor);
     border-radius: 20px;
 }
 
@@ -48,13 +48,13 @@
     padding: 0;
     padding: 5px;
     background: none;
-    border-bottom: 1px solid #5c5c5c;
+    border-bottom: 1px solid var(--shadowcolor);
 }
 
 .registration__input-label {
     text-wrap: nowrap;
     font-weight: 600;
-    color: #5c5c5c;
+    color: var(--shadowcolor);
     position: absolute;
     left: 15px;
     top: -14px;
@@ -74,24 +74,24 @@
     top: -14px;
     transform: none;
     font-size: 20px;
-    color: #95ff00;
+    color: var(--maincolor);
     text-wrap: nowrap;
 }
 
 .registration__input-label-err {
-    color: brown;
+    color: var(--error);
 }
 
 
 
 .registration__input:focus {
-    border-bottom: 1px solid #95ff00;
+    border-bottom: 1px solid var(--maincolor);
 }
 .registration__input-err:focus{
-    border-bottom: 1px solid brown;
+    border-bottom: 1px solid var(--error);
 }
 .registration__input-err{
-    border-bottom: 1px solid brown;
+    border-bottom: 1px solid var(--error);
 }
 
 
@@ -104,32 +104,32 @@
     font-size: 24px;
     padding: 5px 15px;
     background: none;
-    border: 1px solid #95ff00;
+    border: 1px solid var(--maincolor);
     border-radius: 10px;
     transition: all .3s;
     margin: 20px 0;
 }
 
 .registration__sibmit-btn:hover {
-    background-color: #ffffff;
-    color: black;
+    background-color: var(--foreground);
+    color: var(--background);
 }
 
 .registration__sibmit-btn:disabled {
-    border: 1px solid #5c5c5c;
+    border: 1px solid var(--shadowcolor);
     transition: none;
 }
 
 .registration__sibmit-btn:disabled:hover {
     background-color: unset;
-    color: #252525;
+    color: var(--shadowcolor);
 }
 
 
 .registration__decoration-line {
     width: 100%;
     height: 1px;
-    background-color: #5c5c5c;
+    background-color: var(--shadowcolor);
 }
 
 .registration__link-login {
@@ -137,7 +137,7 @@
     width: 240px;
     text-align: center;
     font-size: 20px;
-    border: 1px solid #ddffad;
+    border: 1px solid var(--additional);
     padding: 10px;
     border-radius: 10px;
     transition: all .3s;
@@ -145,19 +145,19 @@
 }
 
 .registration__link-login:hover {
-    border: 1px solid #95ff00;
-    background-color: #fff;
-    color: #000;
+    border: 1px solid var(--maincolor);
+    background-color: var(--foreground);
+    color: var(--background);
 }
 
 .input__error {
-    color: brown;
+    color: var(--error);
 }
 
 .auth__err {
     max-width: 400px;
     display: block;
-    color: brown;
+    color: var(--error);
     margin: 5px 0;
     text-align: start;
     width: 100%;
@@ -168,6 +168,5 @@
 @media (max-width: 450px) {
     .registration__sibmit-btn {
         width: 100%;
-
     }
 }

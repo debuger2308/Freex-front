@@ -39,7 +39,6 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL("/", req.url))
     }
     if (req.nextUrl.pathname === '/auth/registration' && authInfo?.isAuth) {
-
         return NextResponse.redirect(new URL("/", req.url))
     }
     if (req.nextUrl.pathname !== '/auth/login' && !authInfo.isAuth) {
@@ -52,5 +51,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/auth/login', '/auth/registration', '/'],
+    matcher: ['/auth/login', '/auth/registration', '/', '/userdata'],
 }
