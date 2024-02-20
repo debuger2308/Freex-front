@@ -1,0 +1,43 @@
+.header {
+    padding: 20px 0;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    border-bottom: 1px solid var(--shadowcolor);
+}
+
+.logo {
+    font-size: 46px;
+    color: var(--maincolor);
+}
+
+.header__nav {
+    display: flex;
+    gap: 20px;
+    font-size: 24px;
+
+}
+
+.nav__link {
+    position: relative;
+}
+
+.nav__link:hover::after {
+    opacity: 1;
+}
+
+.nav__link::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -5px;
+    height: 2px;
+    width: 100%;
+    background-color: var(--additional);
+    transition: all .3s;
+    opacity: 0;
+}
+
+.nav__link--active::after {
+    opacity: 1;
+}
