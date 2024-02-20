@@ -6,7 +6,7 @@ import { IUserDataDto } from '@/interfaces/IUserDataDto'
 import { useRouter } from 'next/navigation'
 
 async function getAuthInfo() {
-    const res = await fetch('/api/auth/get-token', {
+    const res = await fetch('/api/auth/get-session', {
         method: 'GET'
     })
     const json = await res.json()
@@ -52,7 +52,7 @@ const UserData = () => {
 
     useEffect(() => {
         async function setData() {
-            const authInfo: { isAuth: true, token: string } = await getAuthInfo()
+            const authInfo: { isAuth: boolean, token: string } = await getAuthInfo()
             if (authInfo && authInfo.isAuth && authInfo.token) {
                 const res = await getUserData(authInfo)
                 if (res.status === 200) {
@@ -84,12 +84,11 @@ const UserData = () => {
         })
 
     }, [])
-    // console.log(userData);
+
 
     return (
         <main className="userdata">
             <div className="userdata__container">
-                <h1 className='userdata__title'>Questionnaire</h1>
 
                 <form
                     className="userdata__form"
@@ -149,98 +148,111 @@ const UserData = () => {
                         required
                     />
 
-                    <label htmlFor="name" className='userdata-label'>
-                        Name
+                    <div className="input-field">
                         <input
                             type="text"
                             defaultValue={userData?.name || ''}
                             name='name'
                             id='name'
-                            className='userdata__input'
+                            className='input'
                             maxLength={20}
+                            placeholder=''
                         />
-                    </label>
+                        <label htmlFor="name" className='input-label'>
+                            Name
 
-                    <label htmlFor="city" className='userdata-label'>
-                        City
+                        </label>
+                    </div>
+
+
+                    <div className="input-field">
                         <input
                             type="text"
                             defaultValue={userData?.city || ''}
                             name='city'
                             id='city'
-                            className='userdata__input'
+                            className='input'
                             maxLength={20}
+                            placeholder=''
                         />
-                    </label>
+                        <label htmlFor="city" className='input-label'>
+                            City
+
+                        </label>
+                    </div>
 
 
-                    <label htmlFor="age" className='userdata-label'>
-                        Age
+                    <div className="input-field">
                         <input
                             type="number"
                             defaultValue={userData?.age || ''}
                             name='age'
                             id='age'
-                            className='userdata__input userdata__input-age'
+                            className='input userdata__input-age'
+                            placeholder=''
                         />
-                    </label>
+                        <label htmlFor="age" className='input-label'>
+                            Age
+                        </label>
+                    </div>
 
-                    <label
-                        className="userdata-label userdata-label--ContentEdit"
-                        onClick={() => descInputRef.current?.focus()}
-                    >
-                        Description
+                    <div className="input-field content-div__field">
                         <div
-                            id='description'
                             ref={descInputRef}
                             suppressContentEditableWarning={true}
-                            className="userdata__input userdata__content-div"
+                            className="input userdata__content-div"
                             contentEditable="true"
                             onBlur={(e) => setDescription(e.currentTarget.textContent || '')}
                         >
                             {userData?.description}
                         </div>
                         <input
+                            id='description'
                             type="text"
-                            className='userdata__input userdata__input-desc'
+                            className='input userdata__input-desc'
                             name='description'
-                            value={description}
+                            value={ description || userData?.description || ''}
                             readOnly
+                            placeholder=''
                         />
-                    </label>
+                        <label
+                            className="input-label userdata-label--ContentEdit"
+                            onClick={() => descInputRef.current?.focus()}
+                            htmlFor="description"
+                        >
+                            Description
+                        </label>
+                    </div>
 
-                    <label htmlFor="gender" className='userdata-label'>
-                        Gender
-                        <div className="userdata-label__age">
 
-                            <label htmlFor="gender-man" className='userdata__label-gender'>
+                    <div className="gender-wrapper input">
 
-                                <input
-                                    onChange={(e) => setGenderChecked(e.currentTarget.value)}
-                                    type="radio"
-                                    name='gender'
-                                    id='gender-man'
-                                    className='userdata__input-gender'
-                                    value='man'
-                                    checked={genderChecked === 'man'}
-                                />
-                                Man
-                            </label>
+                        <label htmlFor="gender-man" className='gender__label'>
+                            <input
+                                onChange={(e) => setGenderChecked(e.currentTarget.value)}
+                                type="radio"
+                                name='gender'
+                                id='gender-man'
+                                className='gender__input'
+                                value='man'
+                                checked={genderChecked === 'man'}
+                            />
+                            Man
+                        </label>
 
-                            <label htmlFor="gender-woman" className='userdata__label-gender'>
-                                <input
-                                    onChange={(e) => setGenderChecked(e.currentTarget.value)}
-                                    type="radio"
-                                    name='gender'
-                                    id='gender-woman'
-                                    className='userdata__input-gender'
-                                    value='woman'
-                                    checked={genderChecked === 'woman'}
-                                />
-                                Woman
-                            </label>
-                        </div>
-                    </label>
+                        <label htmlFor="gender-woman" className='gender__label'>
+                            <input
+                                onChange={(e) => setGenderChecked(e.currentTarget.value)}
+                                type="radio"
+                                name='gender'
+                                id='gender-woman'
+                                className='gender__input'
+                                value='woman'
+                                checked={genderChecked === 'woman'}
+                            />
+                            Woman
+                        </label>
+                    </div>
 
                     <button
                         type='submit'

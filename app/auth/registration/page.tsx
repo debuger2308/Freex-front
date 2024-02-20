@@ -88,10 +88,10 @@ const Registration = () => {
                 >
                     <h3 className="form__title">Registration</h3>
 
-                    <div className="registration__input-field">
+                    <div className="input-field registration__input-field">
                         <input
                             type="text"
-                            className={nicknameErr ? "registration__input registration__input-err" : 'registration__input'}
+                            className={nicknameErr ? "input registration__input-err registration__input" : 'input registration__input'}
                             id='nickname'
                             name="nickname"
                             placeholder=' '
@@ -100,7 +100,7 @@ const Registration = () => {
 
                         <label
                             htmlFor="nickname"
-                            className={nicknameErr ? "registration__input-label registration__input-label-err" : 'registration__input-label '}
+                            className={nicknameErr ? "input-label registration__input-label-err" : 'input-label'}
                         >
                             nickname
                         </label>
@@ -108,10 +108,10 @@ const Registration = () => {
 
 
 
-                    <div className="registration__input-field">
+                    <div className="input-field registration__input-field">
                         <input
                             type="password"
-                            className={passErr ? "registration__input registration__input-err" : 'registration__input'}
+                            className={passErr ? "input registration__input-err registration__input" : 'input registration__input'}
                             id='password'
                             name="password"
                             placeholder=' '
@@ -120,7 +120,7 @@ const Registration = () => {
 
                         <label
                             htmlFor="password"
-                            className={passErr ? "registration__input-label registration__input-label-err" : 'registration__input-label '}
+                            className={passErr ? "input-label registration__input-label-err" : 'input-label '}
                         >
                             Password
                         </label>
@@ -128,10 +128,10 @@ const Registration = () => {
 
 
 
-                    <div className="registration__input-field">
+                    <div className="input-field registration__input-field">
                         <input
                             type="password"
-                            className={passReapeatErr ? "registration__input registration__input-err" : 'registration__input'}
+                            className={passReapeatErr ? "input registration__input-err registration__input" : 'input registration__input'}
                             id='reapeat-password'
                             name="reapeat-password"
                             placeholder=' '
@@ -140,7 +140,7 @@ const Registration = () => {
 
                         <label
                             htmlFor="reapeat-password"
-                            className={passReapeatErr ? "registration__input-label registration__input-label-err" : 'registration__input-label '}
+                            className={passReapeatErr ? "input-label registration__input-label-err" : 'input-label '}
                         >
                             Repeat password
                         </label>

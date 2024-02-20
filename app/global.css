@@ -8,7 +8,7 @@
 }
 
 [data-theme='dark'] {
-    --background: #1d1d1d;
+    --background: #000000;
     --foreground: #ebebeb;
     --shadowcolor: #5c5c5c;
     --maincolor: #95ff00;
@@ -31,7 +31,7 @@ body {
 }
 
 .wrapper {
-    overflow: hidden;
+    overflow-x: hidden;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -44,26 +44,46 @@ main {
 }
 
 
-.header__color-theme {
-    border: 1px solid var(--foreground);
-    padding: 5px 10px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
+
+
+.input-field {
+    position: relative;
 }
 
-.header__color-btn {
-    background: unset;
+.input-label {
+    font-weight: 600;
+    color: var(--shadowcolor);
+    position: absolute;
+    left: 15px;
+    top: -14px;
+    font-size: 20px;
+    transition: .2s;
+    cursor: text;
+}
+
+.input {
+    width: 300px;
+    font-size: 24px;
     padding: 5px;
-    width: 30px;
-    height: 30px;
+    background: none;
+    border-bottom: 1px solid var(--shadowcolor);
 }
 
-.header__color-svg {
-    transition: all .3s;
-    fill: var(--shadowcolor);
+.input:placeholder-shown~.input-label {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
 }
 
-.header__color-svg--active {
-    fill: var(--foreground);
+.input:focus~.input-label {
+    left: 15px;
+    top: -14px;
+    transform: none;
+    font-size: 20px;
+    color: var(--maincolor);
+}
+
+
+.input:focus {
+    border-bottom: 1px solid var(--maincolor);
 }

@@ -37,64 +37,13 @@
 
 
 .registration__input-field {
-    position: relative;
     margin: 20px 0px;
     width: 90%;
 }
 
 .registration__input {
     width: 100%;
-    font-size: 24px;
-    padding: 0;
-    padding: 5px;
-    background: none;
-    border-bottom: 1px solid var(--shadowcolor);
 }
-
-.registration__input-label {
-    text-wrap: nowrap;
-    font-weight: 600;
-    color: var(--shadowcolor);
-    position: absolute;
-    left: 15px;
-    top: -14px;
-    font-size: 20px;
-    transition: .2s;
-    cursor: text;
-}
-
-.registration__input:placeholder-shown~.registration__input-label {
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-}
-
-.registration__input:focus~.registration__input-label {
-    left: 15px;
-    top: -14px;
-    transform: none;
-    font-size: 20px;
-    color: var(--maincolor);
-    text-wrap: nowrap;
-}
-
-.registration__input-label-err {
-    color: var(--error);
-}
-
-
-
-.registration__input:focus {
-    border-bottom: 1px solid var(--maincolor);
-}
-.registration__input-err:focus{
-    border-bottom: 1px solid var(--error);
-}
-.registration__input-err{
-    border-bottom: 1px solid var(--error);
-}
-
-
 
 
 .registration__sibmit-btn {

@@ -73,7 +73,7 @@ const Auth = () => {
                     className="auth__form"
                 >
 
-                    <div className="auth__input-field">
+                    <div className="input-field">
                         <input
                             onChange={() => {
                                 setAuthErros('')
@@ -81,12 +81,12 @@ const Auth = () => {
                             type="text"
                             id='nickname'
                             name="nickname"
-                            className='auth__input'
+                            className='input'
                             placeholder=' '
                             required />
-                        <label htmlFor="nickname" className="auth__input-label">Nickname</label>
+                        <label htmlFor="nickname" className="input-label">Nickname</label>
                     </div>
-                    <div className="auth__input-field">
+                    <div className="input-field">
                         <input
                             onChange={() => {
                                 setAuthErros('')
@@ -95,9 +95,9 @@ const Auth = () => {
                             id='password'
                             name="password"
                             placeholder=' '
-                            className='auth__input'
+                            className='input'
                             required />
-                        <label htmlFor="password" className="auth__input-label">Password</label>
+                        <label htmlFor="password" className="input-label">Password</label>
                     </div>
 
                     <div className="auth__errors">

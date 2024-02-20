@@ -40,48 +40,7 @@
     border-radius: 20px;
 }
 
-.auth__input-field {
-    position: relative;
-}
 
-.auth__input {
-    width: 300px;
-    font-size: 24px;
-    padding: 0;
-    padding: 5px;
-    background: none;
-    border-bottom: 1px solid var(--shadowcolor);
-}
-
-.auth__input-label {
-    font-weight: 600;
-    color: var(--shadowcolor);
-    position: absolute;
-    left: 15px;
-    top: -14px;
-    font-size: 20px;
-    transition: .2s;
-    cursor: text;
-}
-
-.auth__input:placeholder-shown~.auth__input-label {
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-}
-
-.auth__input:focus~.auth__input-label {
-    left: 15px;
-    top: -14px;
-    transform: none;
-    font-size: 20px;
-    color: var(--maincolor);
-}
-
-
-.auth__input:focus {
-    border-bottom: 1px solid var(--maincolor);
-}
 
 .auth__errors {
     max-width: 300px;

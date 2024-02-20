@@ -5,7 +5,8 @@ import Footer from '@/components/footer/Footer'
 import './reset.css'
 import './global.css'
 import { ColorTheme } from '@/providers/ColorTheme'
-import Header from '@/components/header/header'
+import Header from '@/components/header/Header'
+import { cookies } from 'next/headers'
 
 
 
@@ -24,14 +25,15 @@ export default async function RootLayout({
 	children: React.ReactNode
 }) {
 
-
+	const cookie = cookies().get('auth-info') || null
+	const session: { isAuth: boolean, token: string } | null = JSON.parse(cookie?.value || '{}') || null
 
 	return (
 		<html lang="en">
 			<body className={inter.className}>
 				<ColorTheme>
 					<div className="wrapper">
-						<Header />
+						<Header session={session} />
 						{children}
 						<Footer />
 					</div>
