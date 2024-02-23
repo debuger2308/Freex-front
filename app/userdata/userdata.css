@@ -54,10 +54,10 @@
     appearance: none;
     width: 30px;
     height: 30px;
-    border: 1px solid var(--shadowcolor);
+    border: 3px dashed var(--shadowcolor);
 }
 .gender__input:hover{
-    border: 1px solid var(--maincolor);
+    border: 3px dashed var(--shadowcolor);
 }
 .gender__input:checked{
     background-color: var(--maincolor);

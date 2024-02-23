@@ -66,7 +66,7 @@ main {
     font-size: 24px;
     padding: 5px;
     background: none;
-    border-bottom: 1px solid var(--shadowcolor);
+    border-bottom: 1px dashed var(--shadowcolor);
 }
 
 .input:placeholder-shown~.input-label {
@@ -85,5 +85,5 @@ main {
 
 
 .input:focus {
-    border-bottom: 1px solid var(--maincolor);
+    border-bottom: 1px dashed var(--maincolor);
 }

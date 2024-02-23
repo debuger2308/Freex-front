@@ -3,7 +3,7 @@
     display: flex;
     gap: 50px;
     align-items: center;
-    border-bottom: 1px solid var(--shadowcolor);
+    border-bottom: 1px dashed var(--shadowcolor);
 }
 
 .logo {
@@ -33,7 +33,7 @@
     bottom: -5px;
     height: 2px;
     width: 100%;
-    background-color: var(--additional);
+    border-bottom: 2px dashed var(--maincolor);
     transition: all .3s;
     opacity: 0;
 }

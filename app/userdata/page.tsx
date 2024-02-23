@@ -4,6 +4,7 @@ import './userdata.css'
 import { IAuthInfo } from '@/interfaces/IAuthInfo'
 import { IUserDataDto } from '@/interfaces/IUserDataDto'
 import { useRouter } from 'next/navigation'
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 
 async function getAuthInfo() {
     const res = await fetch('/api/auth/get-session', {
@@ -31,7 +32,7 @@ async function refreshToken() {
         method: 'POST',
         credentials: 'include'
     })
-    return res
+    return await res.json()
 }
 
 const UserData = () => {
@@ -61,8 +62,9 @@ const UserData = () => {
                     setGenderChecked(data.gender)
                 }
                 else if (res.status === 403) {
-                    await refreshToken()
-                    const res = await getUserData(authInfo)
+                    const refreshRes: RequestCookie | undefined = await refreshToken()
+                    const refreshAuthInfo = JSON.parse(refreshRes?.value || "{}")
+                    const res = await getUserData(refreshAuthInfo)
                     if (res.status === 200) {
                         const data = await res.json()
                         setUserData(data)
@@ -94,6 +96,7 @@ const UserData = () => {
                     className="userdata__form"
                     action={async (formData) => {
 
+                        const authInfo: { isAuth: true, token: string } = await getAuthInfo()
                         if (String(formData.get('coordinats')).length === 0) {
                             return null
                         }
@@ -107,7 +110,6 @@ const UserData = () => {
                             name: String(formData.get('name')),
                         }
 
-                        const authInfo: { isAuth: true, token: string } = await getAuthInfo()
                         if (authInfo && authInfo.isAuth && authInfo.token) {
                             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-data/set-data`, {
                                 method: 'PUT',
@@ -190,6 +192,8 @@ const UserData = () => {
                             id='age'
                             className='input userdata__input-age'
                             placeholder=''
+                            min="18"
+                            max="100"
                         />
                         <label htmlFor="age" className='input-label'>
                             Age
@@ -211,7 +215,7 @@ const UserData = () => {
                             type="text"
                             className='input userdata__input-desc'
                             name='description'
-                            value={ description || userData?.description || ''}
+                            value={description || userData?.description || ''}
                             readOnly
                             placeholder=''
                         />

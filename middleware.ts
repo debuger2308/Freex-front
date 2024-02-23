@@ -7,14 +7,14 @@ export async function middleware(req: NextRequest) {
 
     const cookieStore = cookies()
     let authInfo: { isAuth: boolean, token: string } = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
-
+   
     if (authInfo && authInfo.isAuth === true) {
         const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
             method: 'POST',
             credentials: 'include',
             headers: new Headers(req.headers)
         })
-
+        
         if (backendRes.status === 201) {
             const data = await backendRes.json()
 

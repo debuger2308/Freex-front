@@ -1,0 +1,52 @@
+
+.searh-p-form{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+.gender-wrapper{
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-around;
+}
+.gender__input{
+    transition: all .3s;
+    cursor: pointer;
+    border-radius: 50%;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    border: 3px dashed var(--shadowcolor);
+}
+.gender__input:hover{
+    border: 3px dashed var(--maincolor);
+}
+.gender__input:checked{
+    background-color: var(--maincolor);
+}
+.gender__label{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 24px;
+}
+
+
+.userdata__form-btn {
+    margin-top: 20px;
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: unset;
+    border: 3px solid var(--shadowcolor);
+    transition: all .3s;
+}
+
+.userdata__form-btn:hover {
+    border: 3px solid var(--maincolor);
+    background-color: var(--foreground);
+    color: var(--background);
+}
