@@ -1,0 +1,29 @@
+.skeleton {
+    position: relative;
+    background-color: #1a1a1a6a;
+}
+
+.skeleton__span {
+    display: block;
+    z-index: 1;
+    height: 100%;
+    position: absolute;
+    width: 10%;
+    background-color: #1a1a1a6a;
+    left: 5%;
+    box-shadow: 20px 0px 10px #1a1a1a6a , -20px 0px 10px #1a1a1a6a;
+    animation: 1.5s linear 0s infinite slider;
+    border-bottom: 1px dashed var(--maincolor);
+}
+
+@keyframes slider {
+    from {
+        left: 5%;
+    }
+    50%{
+        left: 85%;
+    }
+    to{
+        left: 5%;
+    }
+}

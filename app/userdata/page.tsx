@@ -1,10 +1,15 @@
 "use client"
-import { useEffect, useRef, useState } from 'react'
+import { CSSProperties, useEffect, useRef, useState } from 'react'
 import './userdata.css'
 import { IAuthInfo } from '@/interfaces/IAuthInfo'
 import { IUserDataDto } from '@/interfaces/IUserDataDto'
 import { useRouter } from 'next/navigation'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
+import Skeleton from '@/components/skeleton/Skeleton'
+
+const inputStyles: CSSProperties = {
+    borderBottom: '1px dashed var(--shadowcolor)'
+}
 
 async function getAuthInfo() {
     const res = await fetch('/api/auth/get-session', {
@@ -38,6 +43,8 @@ async function refreshToken() {
 const UserData = () => {
     const router = useRouter()
 
+    const [isLoading, setIsLoading] = useState(true)
+
     const [userData, setUserData] = useState<IUserDataDto>()
 
     const [description, setDescription] = useState('')
@@ -60,6 +67,7 @@ const UserData = () => {
                     const data = await res.json()
                     setUserData(data)
                     setGenderChecked(data.gender)
+                    setDescription(data.description)
                 }
                 else if (res.status === 403) {
                     const refreshRes: RequestCookie | undefined = await refreshToken()
@@ -73,6 +81,7 @@ const UserData = () => {
                     else router.refresh()
                 }
             }
+            setIsLoading(false)
         }
         setData()
 
@@ -109,7 +118,7 @@ const UserData = () => {
                             description: String(formData.get('description')),
                             name: String(formData.get('name')),
                         }
-
+                        console.log(data);
                         if (authInfo && authInfo.isAuth && authInfo.token) {
                             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-data/set-data`, {
                                 method: 'PUT',
@@ -122,8 +131,8 @@ const UserData = () => {
                             })
                             if (res.status === 403) {
                                 const refreshRes = await refreshToken()
-                                const refreshJson = await refreshRes.json()
-                                const refreshAuthInfo = JSON.parse(refreshJson.value)
+                               
+                                const refreshAuthInfo = JSON.parse(refreshRes.value)
                                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-data/set-data`, {
                                     method: 'PUT',
                                     credentials: 'include',
@@ -149,120 +158,141 @@ const UserData = () => {
                         readOnly
                         required
                     />
+                    {isLoading ?
+                        <Skeleton height='40px' styles={inputStyles} />
+                        : <div className="input-field">
+                            <input
+                                type="text"
+                                defaultValue={userData?.name || ''}
+                                name='name'
+                                id='name'
+                                className='input'
+                                maxLength={20}
+                                placeholder=''
+                            />
+                            <label htmlFor="name" className='input-label'>
+                                Name
 
-                    <div className="input-field">
-                        <input
-                            type="text"
-                            defaultValue={userData?.name || ''}
-                            name='name'
-                            id='name'
-                            className='input'
-                            maxLength={20}
-                            placeholder=''
-                        />
-                        <label htmlFor="name" className='input-label'>
-                            Name
-
-                        </label>
-                    </div>
-
-
-                    <div className="input-field">
-                        <input
-                            type="text"
-                            defaultValue={userData?.city || ''}
-                            name='city'
-                            id='city'
-                            className='input'
-                            maxLength={20}
-                            placeholder=''
-                        />
-                        <label htmlFor="city" className='input-label'>
-                            City
-
-                        </label>
-                    </div>
-
-
-                    <div className="input-field">
-                        <input
-                            type="number"
-                            defaultValue={userData?.age || ''}
-                            name='age'
-                            id='age'
-                            className='input userdata__input-age'
-                            placeholder=''
-                            min="18"
-                            max="100"
-                        />
-                        <label htmlFor="age" className='input-label'>
-                            Age
-                        </label>
-                    </div>
-
-                    <div className="input-field content-div__field">
-                        <div
-                            ref={descInputRef}
-                            suppressContentEditableWarning={true}
-                            className="input userdata__content-div"
-                            contentEditable="true"
-                            onBlur={(e) => setDescription(e.currentTarget.textContent || '')}
-                        >
-                            {userData?.description}
+                            </label>
                         </div>
-                        <input
-                            id='description'
-                            type="text"
-                            className='input userdata__input-desc'
-                            name='description'
-                            value={description || userData?.description || ''}
-                            readOnly
-                            placeholder=''
-                        />
-                        <label
-                            className="input-label userdata-label--ContentEdit"
-                            onClick={() => descInputRef.current?.focus()}
-                            htmlFor="description"
-                        >
-                            Description
-                        </label>
-                    </div>
+                    }
 
 
-                    <div className="gender-wrapper input">
-
-                        <label htmlFor="gender-man" className='gender__label'>
+                    {isLoading ?
+                        <Skeleton height='40px' styles={inputStyles} />
+                        : <div className="input-field">
                             <input
-                                onChange={(e) => setGenderChecked(e.currentTarget.value)}
-                                type="radio"
-                                name='gender'
-                                id='gender-man'
-                                className='gender__input'
-                                value='man'
-                                checked={genderChecked === 'man'}
+                                type="text"
+                                defaultValue={userData?.city || ''}
+                                name='city'
+                                id='city'
+                                className='input'
+                                maxLength={20}
+                                placeholder=''
                             />
-                            Man
-                        </label>
+                            <label htmlFor="city" className='input-label'>
+                                City
 
-                        <label htmlFor="gender-woman" className='gender__label'>
+                            </label>
+                        </div>
+                    }
+
+                    {isLoading ?
+                        <Skeleton height='40px' styles={inputStyles} />
+                        : <div className="input-field">
                             <input
-                                onChange={(e) => setGenderChecked(e.currentTarget.value)}
-                                type="radio"
-                                name='gender'
-                                id='gender-woman'
-                                className='gender__input'
-                                value='woman'
-                                checked={genderChecked === 'woman'}
+                                type="number"
+                                defaultValue={userData?.age || ''}
+                                name='age'
+                                id='age'
+                                className='input userdata__input-age'
+                                placeholder=''
+                                min="18"
+                                max="100"
                             />
-                            Woman
-                        </label>
-                    </div>
+                            <label htmlFor="age" className='input-label'>
+                                Age
+                            </label>
+                        </div>
+                    }
 
-                    <button
-                        type='submit'
-                        className='userdata__form-btn'>
-                        Save
-                    </button>
+
+                    {isLoading ?
+                        <Skeleton height='40px' styles={inputStyles} />
+                        : <div className="input-field content-div__field">
+                            <div
+                                ref={descInputRef}
+                                suppressContentEditableWarning={true}
+                                className="input userdata__content-div"
+                                contentEditable="true"
+                                onBlur={(e) => setDescription(e.currentTarget.textContent || '')}
+                            >
+                                {userData?.description}
+                            </div>
+                            <input
+                                id='description'
+                                type="text"
+                                className='input userdata__input-desc'
+                                name='description'
+                                value={description || ''}
+                                readOnly
+                                placeholder=''
+                            />
+                            <label
+                                className="input-label userdata-label--ContentEdit"
+                                onClick={() => descInputRef.current?.focus()}
+                                htmlFor="description"
+                            >
+                                Description
+                            </label>
+                        </div>
+
+                    }
+
+                    {isLoading ?
+                        <Skeleton height='41px' styles={inputStyles} />
+                        : <div className="gender-wrapper input">
+
+                            <label htmlFor="gender-man" className='gender__label'>
+                                <input
+                                    onChange={(e) => setGenderChecked(e.currentTarget.value)}
+                                    type="radio"
+                                    name='gender'
+                                    id='gender-man'
+                                    className='gender__input'
+                                    value='man'
+                                    checked={genderChecked === 'man'}
+                                />
+                                Man
+                            </label>
+
+                            <label htmlFor="gender-woman" className='gender__label'>
+                                <input
+                                    onChange={(e) => setGenderChecked(e.currentTarget.value)}
+                                    type="radio"
+                                    name='gender'
+                                    id='gender-woman'
+                                    className='gender__input'
+                                    value='woman'
+                                    checked={genderChecked === 'woman'}
+                                />
+                                Woman
+                            </label>
+                        </div>
+
+                    }
+                    {isLoading ?
+                        <Skeleton height='62px' styles={inputStyles} />
+                        : <button
+                            type='submit'
+                            className='userdata__form-btn'>
+                            Save
+                        </button>
+
+                    }
+
+
+
                 </form>
             </div>
         </main>

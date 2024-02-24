@@ -7,6 +7,7 @@ import { IAuthInfo } from "@/interfaces/IAuthInfo";
 import { useRouter } from "next/navigation";
 import { ISearchParams } from "@/interfaces/ISearchParams";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import Skeleton from "../skeleton/Skeleton";
 
 const inputStyles: CSSProperties = {
     borderBottom: '1px dashed var(--shadowcolor)'
@@ -42,14 +43,28 @@ async function refreshToken() {
 const SearchParamsForm = () => {
 
     const router = useRouter()
-    
+
+    const [isLoading, setIsLoading] = useState(true)
+    const [actionIsLoading, setActionIsLoading] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(false)
+
     const [genderChecked, setGenderChecked] = useState('')
     const [minAge, setMinAge] = useState(18)
     const [maxAge, setMaxAge] = useState(100)
     const [distance, setDistance] = useState(100)
 
     useEffect(() => {
+        if (isLoaded === true) {
+            setTimeout(() => {
+                setIsLoaded(false)
+            }, 1500)
+        }
+
+    }, [isLoaded])
+
+    useEffect(() => {
         async function setData() {
+            setIsLoading(true)
             const authInfo: { isAuth: boolean, token: string } = await getAuthInfo()
             if (authInfo && authInfo.isAuth && authInfo.token) {
                 const res = await getUserData(authInfo)
@@ -74,6 +89,7 @@ const SearchParamsForm = () => {
                     else router.refresh()
                 }
             }
+            setIsLoading(false)
         }
         setData()
     }, [])
@@ -82,8 +98,8 @@ const SearchParamsForm = () => {
         <form
             className="searh-p-form"
             action={async (formData) => {
-
                 const authInfo: { isAuth: true, token: string } = await getAuthInfo()
+                setActionIsLoading(true)
                 const data: ISearchParams = {
                     distance: Number(distance),
                     gender: String(formData.get('gender')),
@@ -100,6 +116,8 @@ const SearchParamsForm = () => {
                         },
                         body: JSON.stringify(data)
                     })
+
+                    if (res.status === 200) setIsLoaded(true)
                     if (res.status === 403) {
                         const refreshRes = await refreshToken()
                         const refreshJson = await refreshRes
@@ -113,65 +131,98 @@ const SearchParamsForm = () => {
                             },
                             body: JSON.stringify(data)
                         })
+                        if (res.status === 200) setIsLoaded(true)
                     }
                     else router.refresh()
                 }
+                setActionIsLoading(false)
 
             }}
         >
-            <div className="gender-wrapper" style={inputStyles}>
-
-                <label htmlFor="gender-man" className='gender__label'>
-                    <input
-                        onChange={(e) => setGenderChecked(e.currentTarget.value)}
-                        type="radio"
-                        name='gender'
-                        id='gender-man'
-                        className='gender__input'
-                        value='man'
-                        checked={genderChecked === 'man'}
-                    />
-                    Man
-                </label>
-
-                <label htmlFor="gender-woman" className='gender__label'>
-                    <input
-                        onChange={(e) => setGenderChecked(e.currentTarget.value)}
-                        type="radio"
-                        name='gender'
-                        id='gender-woman'
-                        className='gender__input'
-                        value='woman'
-                        checked={genderChecked === 'woman'}
-                    />
-                    Woman
-                </label>
-            </div>
 
 
-            <DoubleRangeInput
-                min={18}
-                max={99}
-                setActualMaxValue={setMaxAge}
-                setActualMinValue={setMinAge}
-                minValue={minAge}
-                maxValue={maxAge}
-                title="Age"
-                styles={inputStyles}
-            />
-            <RangeInput
-                min={0}
-                max={999}
-                setValue={setDistance}
-                value={distance}
-                title="Distance"
-                styles={inputStyles}
-            />
-            <button
-                type='submit'
-                className='userdata__form-btn'>
-                Save
-            </button>
+            {isLoading ?
+                <Skeleton height='61px' styles={inputStyles} />
+                : <div className="gender-wrapper" style={inputStyles}>
+
+                    <label htmlFor="gender-man" className='gender__label'>
+                        <input
+                            onChange={(e) => setGenderChecked(e.currentTarget.value)}
+                            type="radio"
+                            name='gender'
+                            id='gender-man'
+                            className='gender__input'
+                            value='man'
+                            checked={genderChecked === 'man'}
+                        />
+                        Man
+                    </label>
+
+                    <label htmlFor="gender-woman" className='gender__label'>
+                        <input
+                            onChange={(e) => setGenderChecked(e.currentTarget.value)}
+                            type="radio"
+                            name='gender'
+                            id='gender-woman'
+                            className='gender__input'
+                            value='woman'
+                            checked={genderChecked === 'woman'}
+                        />
+                        Woman
+                    </label>
+                </div>
+
+            }
+            {isLoading ?
+                <Skeleton height='146px' styles={inputStyles} />
+                : <DoubleRangeInput
+                    min={18}
+                    max={99}
+                    setActualMaxValue={setMaxAge}
+                    setActualMinValue={setMinAge}
+                    minValue={minAge}
+                    maxValue={maxAge}
+                    title="Age"
+                    styles={inputStyles}
+                />
+
+            }
+            {isLoading ?
+                <Skeleton height='146px' styles={inputStyles} />
+                : <RangeInput
+                    min={0}
+                    max={999}
+                    setValue={setDistance}
+                    value={distance}
+                    title="Distance"
+                    styles={inputStyles}
+                />
+
+            }
+
+            {isLoading ?
+                <Skeleton height='61px' styles={inputStyles} />
+                : <button
+                    type='submit'
+                    className={`userdata__form-btn ${isLoaded && 'userdata__form-btn--activated'}`}
+                    disabled={actionIsLoading}
+                    onClick={(e) => {
+                        if (isLoaded) e.preventDefault()
+                    }}
+                >
+                    {isLoaded
+                        ? "Saved!"
+                        : actionIsLoading
+                            ? <>
+                                Saving...
+                            </>
+                            : "Save"
+                    }
+
+
+                </button>
+            }
+
         </form>
     );
 }

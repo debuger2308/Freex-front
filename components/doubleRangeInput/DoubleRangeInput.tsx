@@ -62,6 +62,7 @@ const DoubleRangeInput = (
                 range.current.style.width = `${maxPercent - minPercent}%`;
             }
         }
+        setInputValueMin(minVal)
     }, [minVal, getPercent]);
     useEffect(() => {
         if (minValueRef.current) {
@@ -72,6 +73,7 @@ const DoubleRangeInput = (
                 range.current.style.width = `${maxPercent - minPercent}%`;
             }
         }
+        setInputValueMax(maxVal)
     }, [maxVal, getPercent]);
 
 
@@ -116,11 +118,30 @@ const DoubleRangeInput = (
                 <input
                     className="rangeinput__input"
                     type="number"
-                    value={minVal}
+                    value={inputValueMin}
                     onChange={(event) => {
                         const value = +event.currentTarget.value
                         if (!Number.isNaN(value)) {
-                            if (value >= min && value < maxVal) setActualMinValue(value)
+                            if (value < min) {
+                                setInputValueMin(+value)
+                            }
+                            else if (value > min && value < maxVal) {
+                                setActualMinValue(+value)
+                                setInputValueMin(+value)
+                            }
+                        }
+                    }}
+                    onBlur={() => {
+                        if (inputValueMin <= min) {
+                            setInputValueMin(min)
+                            setActualMinValue(min)
+                        }
+
+                    }}
+                    onFocus={(e) => e.target.select()}
+                    onKeyUp={(event) => {
+                        if (event.key === "Enter") {
+                            event.currentTarget.blur()
                         }
                     }}
                 />
@@ -128,11 +149,35 @@ const DoubleRangeInput = (
                 <input
                     className="rangeinput__input"
                     type="number"
-                    value={maxVal}
+                    value={inputValueMax}
                     onChange={(event) => {
                         const value = +event.currentTarget.value
                         if (!Number.isNaN(value)) {
-                            if (value <= max && value > minVal) setActualMaxValue(value)
+                            if (value <= min) {
+                                setInputValueMax(+value)
+                            }
+                            else if (value <= max) {
+                                setInputValueMax(+value)
+                                setActualMaxValue(+value)
+                            }
+                            else if (value >= max) {
+                                setInputValueMax(max)
+                                setActualMaxValue(max)
+                            }
+
+                        }
+                    }}
+                    onBlur={() => {
+                        if (inputValueMax <= minVal) {
+                            setInputValueMax(minVal + 1)
+                            setActualMaxValue(minVal + 1)
+                        }
+
+                    }}
+                    onFocus={(e) => e.target.select()}
+                    onKeyUp={(event) => {
+                        if (event.key === "Enter") {
+                            event.currentTarget.blur()
                         }
                     }}
                 />

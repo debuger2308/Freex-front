@@ -1,17 +1,18 @@
-
-.searh-p-form{
+.searh-p-form {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    width: 300px;
 }
 
 
-.gender-wrapper{
+.gender-wrapper {
     padding: 15px 0;
     display: flex;
     justify-content: space-around;
 }
-.gender__input{
+
+.gender__input {
     transition: all .3s;
     cursor: pointer;
     border-radius: 50%;
@@ -20,13 +21,16 @@
     height: 30px;
     border: 3px dashed var(--shadowcolor);
 }
-.gender__input:hover{
+
+.gender__input:hover {
     border: 3px dashed var(--maincolor);
 }
-.gender__input:checked{
+
+.gender__input:checked {
     background-color: var(--maincolor);
 }
-.gender__label{
+
+.gender__label {
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -44,9 +48,29 @@
     border: 3px solid var(--shadowcolor);
     transition: all .3s;
 }
+.userdata__form-btn--activated{
+    color: var(--maincolor);
+    background-color: #000000;
+}
+
+.userdata__form-btn:disabled {
+    transition: none;
+    background-color: var(--shadowcolor);
+}
+.userdata__form-btn:disabled:hover {
+    border: 3px solid var(--foreground);
+    background-color: var(--shadowcolor);
+    color: var(--foreground);
+}
 
 .userdata__form-btn:hover {
     border: 3px solid var(--maincolor);
     background-color: var(--foreground);
     color: var(--background);
 }
+.userdata__form-btn--activated:hover{
+    color: var(--maincolor);
+    background-color: #000000;
+    color: var(--maincolor);
+}
+

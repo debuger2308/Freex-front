@@ -10,7 +10,6 @@ const RangeInput = ({ min, max, setValue, title, styles, value }:
 
     useEffect(() => {
         setMaxVal(max)
-        setInputValueMax(max)
     }, [max])
 
 
@@ -20,15 +19,9 @@ const RangeInput = ({ min, max, setValue, title, styles, value }:
     const getPercent = useCallback((value: number) => Math.round((value / max) * 100), [max])
 
     useEffect(() => {
-        if (maxValueRef.current) {
-            const percent = getPercent(value);
-            if (range.current) {
-                range.current.style.width = `${percent}%`;
-            }
-        }
-        setInputValueMax(maxVal)
-        setValue(maxVal)
-    }, [maxVal, getPercent]);
+        setMaxVal(value)
+    }, [value])
+
     useEffect(() => {
         if (maxValueRef.current) {
             const percent = getPercent(value);
@@ -36,7 +29,18 @@ const RangeInput = ({ min, max, setValue, title, styles, value }:
                 range.current.style.width = `${percent}%`;
             }
         }
-    }, [value, getPercent]);
+        setInputValueMax(maxVal)
+        
+    }, [maxVal, getPercent]);
+    useEffect(() => {
+        if (maxValueRef.current) {
+            const percent = getPercent(maxVal);
+            if (range.current) {
+                range.current.style.width = `${percent}%`;
+            }
+        }
+        setInputValueMax(maxVal)
+    }, [maxVal, getPercent]);
 
 
     return (
@@ -47,11 +51,11 @@ const RangeInput = ({ min, max, setValue, title, styles, value }:
                     type="range"
                     max={max}
                     min={min}
-                    value={value}
+                    value={maxVal}
                     ref={maxValueRef}
                     onChange={(event) => {
                         const value = +event.currentTarget.value;
-                        setMaxVal(value);
+                        setValue(value)
                         event.currentTarget.value = value.toString();
                     }}
                     className="rangeinput__thumb rangeinput__thumb--zindex-4"
@@ -65,20 +69,33 @@ const RangeInput = ({ min, max, setValue, title, styles, value }:
             <div className="rangeinput__inputs">
                 <input
                     className="rangeinput__input"
-                    type="text"
+                    type="number"
                     value={value}
                     onChange={(event) => {
-                        if (!Number.isNaN(+event.currentTarget.value)) setInputValueMax(+event.currentTarget.value)
+                        const value = +event.currentTarget.value
+                        console.log(value);
+                        if (!Number.isNaN(value)) {
+                            if (value < min) {
+                                setInputValueMax(+value)
+                            }
+                            else if (value <= max) {
+                                setInputValueMax(+value)
+                                setValue(+value)
+                            }
+                            else if (value >= max) {
+                                setInputValueMax(max)
+                                setValue(max)
+                            }
+
+                        }
                     }}
                     onBlur={(event) => {
-                        if (inputValueMax > max) {
-                            setMaxVal(max)
-                            setInputValueMax(max)
-                        }
-                        else {
-                            setMaxVal(inputValueMax)
+                        if (inputValueMax <= 0) {
+                            setInputValueMax(0)
+                            setValue(0)
                         }
                     }}
+                    onFocus={(e) => e.target.select()}
                     onKeyUp={(event) => {
                         if (event.key === "Enter") {
                             event.currentTarget.blur()
