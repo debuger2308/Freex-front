@@ -33,7 +33,8 @@ const DoubleRangeInput = (
 
     const [inputValueMin, setInputValueMin] = useState<number>(min)
     const [inputValueMax, setInputValueMax] = useState<number>(max)
-
+    
+    
     useEffect(() => {
         setMinVal(min)
         setMaxVal(max)
@@ -45,13 +46,15 @@ const DoubleRangeInput = (
 
     const getPercent = useCallback((value: number) => Math.round(((value - min) / (max - min)) * 100), [min, max])
 
-
+  
     useEffect(() => {
         setMinVal(minValue)
     }, [minValue])
+    
     useEffect(() => {
         setMaxVal(maxValue)
     }, [maxValue])
+
     useEffect(() => {
         if (maxValueRef.current) {
             const minPercent = getPercent(minVal);
@@ -73,6 +76,7 @@ const DoubleRangeInput = (
                 range.current.style.width = `${maxPercent - minPercent}%`;
             }
         }
+        
         setInputValueMax(maxVal)
     }, [maxVal, getPercent]);
 

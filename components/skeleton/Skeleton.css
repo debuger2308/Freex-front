@@ -1,6 +1,7 @@
 .skeleton {
     position: relative;
     background-color: #1a1a1a6a;
+    animation: 1.5s linear 0s infinite slider;
 }
 
 .skeleton__span {
@@ -12,11 +13,11 @@
     background-color: #1a1a1a6a;
     left: 5%;
     box-shadow: 20px 0px 10px #1a1a1a6a , -20px 0px 10px #1a1a1a6a;
-    animation: 1.5s linear 0s infinite slider;
+    animation: 1.5s linear 0s infinite slider-span;
     border-bottom: 1px dashed var(--maincolor);
 }
 
-@keyframes slider {
+@keyframes slider-span {
     from {
         left: 5%;
     }
@@ -25,5 +26,16 @@
     }
     to{
         left: 5%;
+    }
+}
+@keyframes slider {
+    from {
+        background-color: #1a1a1a6a;
+    }
+    50%{
+        background-color: #3333336a;
+    }
+    to{
+        background-color: #1a1a1a6a;
     }
 }

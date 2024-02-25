@@ -50,7 +50,7 @@ const SearchParamsForm = () => {
 
     const [genderChecked, setGenderChecked] = useState('')
     const [minAge, setMinAge] = useState(18)
-    const [maxAge, setMaxAge] = useState(100)
+    const [maxAge, setMaxAge] = useState(99)
     const [distance, setDistance] = useState(100)
 
     useEffect(() => {
@@ -72,7 +72,7 @@ const SearchParamsForm = () => {
                     const data: ISearchParams = await res.json()
                     setGenderChecked(data.gender || '')
                     setMinAge(data.minAge || 18)
-                    setMaxAge(data.maxAge || 100)
+                    setMaxAge(data.maxAge || 99)
                     setDistance(data.distance || 999)
                 }
                 else if (res.status === 403) {
@@ -83,7 +83,7 @@ const SearchParamsForm = () => {
                         const data = await res.json()
                         setGenderChecked(data.gender || '')
                         setMinAge(data.minAge || 18)
-                        setMaxAge(data.maxAge || 100)
+                        setMaxAge(data.maxAge || 99)
                         setDistance(data.distance || 999)
                     }
                     else router.refresh()

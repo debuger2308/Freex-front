@@ -45,6 +45,10 @@ const UserData = () => {
 
     const [isLoading, setIsLoading] = useState(true)
 
+    const [actionIsLoading, setActionIsLoading] = useState(false)
+
+    const [isLoaded, setIsLoaded] = useState(false)
+
     const [userData, setUserData] = useState<IUserDataDto>()
 
     const [description, setDescription] = useState('')
@@ -57,6 +61,14 @@ const UserData = () => {
 
     const descInputRef = useRef<HTMLDivElement>(null)
 
+    useEffect(() => {
+        if (isLoaded === true) {
+            setTimeout(() => {
+                setIsLoaded(false)
+            }, 1500)
+        }
+
+    }, [isLoaded])
 
     useEffect(() => {
         async function setData() {
@@ -106,6 +118,7 @@ const UserData = () => {
                     action={async (formData) => {
 
                         const authInfo: { isAuth: true, token: string } = await getAuthInfo()
+                        setActionIsLoading(true)
                         if (String(formData.get('coordinats')).length === 0) {
                             return null
                         }
@@ -129,9 +142,10 @@ const UserData = () => {
                                 },
                                 body: JSON.stringify(data)
                             })
+                            if (res.status === 200) setIsLoaded(true)
                             if (res.status === 403) {
                                 const refreshRes = await refreshToken()
-                               
+
                                 const refreshAuthInfo = JSON.parse(refreshRes.value)
                                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-data/set-data`, {
                                     method: 'PUT',
@@ -142,11 +156,12 @@ const UserData = () => {
                                     },
                                     body: JSON.stringify(data)
                                 })
+                                if (res.status === 200) setIsLoaded(true)
                             }
                             else router.refresh()
                         }
 
-
+                        setActionIsLoading(false)
                     }}
                 >
 
@@ -285,8 +300,21 @@ const UserData = () => {
                         <Skeleton height='62px' styles={inputStyles} />
                         : <button
                             type='submit'
-                            className='userdata__form-btn'>
-                            Save
+                            className={`userdata__form-btn ${isLoaded && 'userdata__form-btn--activated'}`}
+                            onClick={(e) => {
+                                if (isLoaded) e.preventDefault()
+                            }}
+                            disabled={actionIsLoading}
+                        >
+
+                            {isLoaded
+                                ? "Saved!"
+                                : actionIsLoading
+                                    ? <>
+                                        Saving...
+                                    </>
+                                    : "Save"
+                            }
                         </button>
 
                     }
