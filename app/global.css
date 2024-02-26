@@ -2,8 +2,8 @@
     --background: #dcdcdc;
     --foreground: #000000;
     --shadowcolor: #5c5c5c;
-    --maincolor: #a027c5;
-    --additional: #3c2a60fd;
+    --maincolor: #4e8517;
+    --additional: #b6c744fd;
     --error: brown;
 }
 
@@ -11,8 +11,8 @@
     --background: #000000;
     --foreground: #ebebeb;
     --shadowcolor: #5c5c5c;
-    --maincolor: #b527c5;
-    --additional: #3c2a60fd;
+    --maincolor: #76c527;
+    --additional: #e7fd58fd;
     --error: brown;
 
 }

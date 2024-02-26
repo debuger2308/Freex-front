@@ -70,6 +70,7 @@
 }
 
 .rangeinput__thumb {
+
   pointer-events: none;
   position: absolute;
   height: 0;
@@ -91,7 +92,7 @@
 
 /* For Chrome browsers */
 .rangeinput__thumb::-webkit-slider-thumb {
-  background-color: var(--maincolor);
+  background-color: var(--additional);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -100,11 +101,16 @@
   margin-top: 4px;
   pointer-events: all;
   position: relative;
+  transition: all .3s;
+}
+
+.rangeinput__thumb:hover::-webkit-slider-thumb {
+  background-color: var(--maincolor);
 }
 
 /* For Firefox browsers */
 .rangeinput__thumb::-moz-range-thumb {
-  background-color: #0083ff;
+  background-color: var(--additional);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -113,4 +119,9 @@
   margin-top: 4px;
   pointer-events: all;
   position: relative;
+  transition: all .3s;
+}
+
+.rangeinput__thumb:hover::-moz-range-thumb {
+  background-color: var(--maincolor);
 }

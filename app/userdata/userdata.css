@@ -35,12 +35,15 @@
     background-color: unset;
     border: 3px solid var(--shadowcolor);
     transition: all .3s;
+    
 }
 
 .userdata__form-btn--activated{
     color: var(--maincolor);
-    background-color: #000000;
+    background-color: var(--background);
+    border: 3px solid var(--additional);
 }
+
 
 .userdata__form-btn:disabled {
     transition: none;
@@ -61,6 +64,9 @@
     color: var(--maincolor);
     background-color: #000000;
     color: var(--maincolor);
+}
+.userdata__form-btn--activated:hover{
+    border: 3px solid var(--additional);
 }
 
 .gender-wrapper{
