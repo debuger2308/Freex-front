@@ -1,0 +1,74 @@
+.spin {
+
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.spin__search-params-wrapper {
+
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 70px;
+}
+
+.spin__search-params {
+    transition: all .3s;
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translate(-50%);
+    opacity: 0;
+}
+
+.spin__search-params--active {
+    top: 0;
+    opacity: 1;
+    transition: all .3s opacity 0s;
+}
+
+
+.spin__slider {
+    position: absolute;
+    top: 100px;
+    transition: all .3s;
+    opacity: 1;
+}
+
+.spin__slider--hide {
+    top: 100%;
+    opacity: 0;
+}
+
+.card {}
+
+.spin__settings-btn {
+    margin: 20px 0;
+    border-radius: 15px;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 24px;
+    background-color: unset;
+    border: 1px solid var(--shadowcolor);
+}
+
+.spin__settings-svg {
+    width: 30px;
+    height: 30px;
+    fill: var(--foreground);
+    transition: all .3s;
+}
+
+.spin__settings-svg--active {
+    fill: var(--additional);
+    transform: rotate(180deg);
+}

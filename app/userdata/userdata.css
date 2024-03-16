@@ -69,28 +69,59 @@
     border: 3px solid var(--additional);
 }
 
-.gender-wrapper{
+.gender-wrapper {
+    padding: 15px 0;
     display: flex;
     justify-content: space-around;
 }
-.gender__input{
-    transition: all .3s;
-    cursor: pointer;
-    border-radius: 50%;
-    appearance: none;
+
+
+.gender__svg {
     width: 30px;
     height: 30px;
-    border: 3px dashed var(--shadowcolor);
+    fill: var(--foreground);
+    transition: all .3s;
+    background-color: none;
 }
-.gender__input:hover{
-    border: 3px dashed var(--maincolor);
+
+.gender__svg--active {
+    fill: var(--maincolor);
+    animation: .3s linear 0s none gender-rotate;
 }
-.gender__input:checked{
-    background-color: var(--maincolor);
+
+@keyframes gender-rotate {
+    from {
+        transform: rotate(0);
+    }
+
+    33% {
+        transform: rotate(45deg);
+    }
+
+    66% {
+        transform: rotate(-45deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
 }
-.gender__label{
+
+.gender__input {
+    display: none;
+
+}
+
+
+
+.gender__label {
+    transition: all .3s;
+    user-select: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 5px;
+    font-size: 24px;
+}
+.gender__label:hover {
+    color: var(--additional);
 }

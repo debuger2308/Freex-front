@@ -1,0 +1,178 @@
+.spin-card {
+    overflow: hidden;
+    width: 400px;
+    height: 60vh;
+    border-radius: 20px;
+    border: 4px solid var(--shadowcolor);
+    overflow: hidden;
+    background-color: var(--background);
+    transition: all .3s;
+    position: relative;
+}
+
+.spin-card--liked {
+    border: 4px solid #00ff4c;
+}
+
+.spin-card--disliked {
+    border: 4px solid #ff0000;
+}
+
+.spin-card__back-btn {
+    top: 5%;
+    left: 5%;
+    padding: 5px;
+    position: absolute;
+    background-color: #00000097;
+    width: 50px;
+    border-radius: 5px;
+}
+
+.spin-card__back-svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--foreground);
+}
+
+
+.name_age__wrapper {
+    padding: 5px;
+    background-color: #00000097;
+    border-radius: 5px;
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    font-size: 24px;
+    color: var(--foreground);
+    text-shadow: 2px 2px 1px var(--background);
+}
+
+
+
+.images__wrapper {
+    height: 70%;
+    position: relative;
+}
+
+.spin-card__img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.images__next-btn {
+    background-color: unset;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    right: 0;
+}
+
+.images__prev-btn {
+    background-color: unset;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0;
+}
+
+.images__slider-points {
+    opacity: 0.8;
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%);
+    gap: 5px;
+
+}
+
+.images-point {
+    border-radius: 50%;
+    border: 3px solid var(--background);
+    background-color: var(--foreground);
+    width: 15px;
+    height: 15px;
+    transition: all .4s;
+}
+
+.images-point--active {
+    background-color: var(--maincolor);
+}
+
+
+
+.spin__info-btn {
+    position: relative;
+    height: 15%;
+    width: 100%;
+    background-color: unset;
+    border-top: 1px dashed var(--shadowcolor);
+    text-align: end;
+}
+
+.info-btn__svg {
+    transition: all .3s;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%) rotate(180deg);
+    fill: var(--foreground);
+    height: 40%;
+    width: 20%;
+}
+.info-btn__svg--active{
+    right: 50%;
+    transform: translate(50%, -50%) rotate(0deg);
+    fill: var(--additional);
+}
+
+.btn-wrapper {
+    height: 15%;
+    border-top: 1px dashed var(--shadowcolor);
+    display: flex;
+}
+
+
+
+.spin__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    background-color: unset;
+}
+
+.spin__btn:first-child {
+    border-right: 1px dashed var(--shadowcolor);
+
+}
+
+.spin-btn__svg {
+    height: 50%;
+
+}
+
+.spin-btn__svg--dislike {
+    fill: #ff0000;
+}
+
+.spin-btn__svg--like {
+    fill: #00ff4c;
+}
+
+
+@media (max-width:700px) {
+    .spin-card {
+        width: 350px;
+        height: 55vh;
+    }
+}
+
+@media (max-width:500px) {
+    .spin-card {
+        width: 300px;
+        height: 50vh;
+    }
+}

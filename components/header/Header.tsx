@@ -15,7 +15,7 @@ const Header = ({ session }: { session: { isAuth: boolean, token: string } | nul
                 <Link className="logo" href="/">Freex</Link>
 
                 <nav className="header__nav">
-                    <Link href="/search" className={`nav__link ${pathname === '/search' ? 'nav__link--active' : ''}`}>
+                    <Link href="/spin" className={`nav__link ${pathname === '/spin' ? 'nav__link--active' : ''}`}>
                         Search
                     </Link>
                     <Link href="/chats" className={`nav__link ${pathname === '/chats' ? 'nav__link--active' : ''}`}>

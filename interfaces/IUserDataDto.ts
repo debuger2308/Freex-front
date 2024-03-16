@@ -6,4 +6,6 @@ export interface IUserDataDto {
     description: string | null,
     gender: string | null,
     name: string | null,
+    images: { fileName: string }[],
+    userId: number
 }
