@@ -6,6 +6,7 @@ import { IUserDataDto } from '@/interfaces/IUserDataDto'
 import { useRouter } from 'next/navigation'
 import Skeleton from '@/components/skeleton/Skeleton'
 import { getAuthInfo, refreshToken, requestWrapper } from '@/functions/api/api'
+import { useFormStatus } from 'react-dom'
 
 
 const inputStyles: CSSProperties = {
@@ -42,6 +43,8 @@ const UserData = () => {
     const router = useRouter()
 
     const [isLoading, setIsLoading] = useState(true)
+
+
 
     const [actionIsLoading, setActionIsLoading] = useState(false)
 
@@ -98,8 +101,11 @@ const UserData = () => {
 
                 <form
                     className="userdata__form"
-                    action={async (formData) => {
+                    onSubmit={()=>{
                         setActionIsLoading(true)
+                    }}
+                    action={async (formData) => {
+                        
                         if (String(formData.get('coordinats')).length === 0) {
                             return null
                         }
@@ -111,9 +117,13 @@ const UserData = () => {
                             description: String(formData.get('description')),
                             name: String(formData.get('name')),
                         }
-                        await requestWrapper(setUserDataRequest, () => { setIsLoaded(true) }, () => { router.refresh() }, data)
+                        await requestWrapper(setUserDataRequest, () => {
+                            setIsLoaded(true)
+                            setActionIsLoading(false)
+                        }, () => { router.refresh() }, data)
 
-                        setActionIsLoading(false)
+
+
                     }}
                 >
 
@@ -295,9 +305,7 @@ const UserData = () => {
                             {isLoaded
                                 ? "Saved!"
                                 : actionIsLoading
-                                    ? <>
-                                        Saving...
-                                    </>
+                                    ? "Saving..."
                                     : "Save"
                             }
                         </button>

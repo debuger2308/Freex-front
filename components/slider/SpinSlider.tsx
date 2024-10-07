@@ -32,12 +32,14 @@ const SpinSlider = ({
                         onMouseDown={(e) => {
                             if (id === frontCard) setMousePos(e.pageY)
                         }}
+
                         onMouseMove={(e) => {
                             if (mousePos !== 0) {
                                 const frontCoordY = e.pageY - mousePos
                                 setFrontCoordY(frontCoordY)
                             }
                         }}
+
                         onMouseUp={async () => {
                             setMousePos(0)
                             setFrontCoordY(0)
@@ -49,11 +51,10 @@ const SpinSlider = ({
                                 await like(activeCardId)
                                 nextCard()
                             }
-
-
                             if (id !== frontCard && !blockUi) setFrontCard(id)
-
                         }}
+                        
+                        
                         key={id}
                         className={`card-wrapper ${frontCard === id ? 'card-wrapper-front' : ''}`}
                         style={{

@@ -3,6 +3,7 @@ import { IUserDataDto } from '@/interfaces/IUserDataDto';
 import './SpinCard.css'
 import { useEffect, useState } from 'react';
 import SpinInfo from './SpinInfo/SpinInfo';
+import CustomScroll from '../customScroll/CustomScroll';
 
 const SpinCard = ({ userData, nextCard, prevCard, isLiked, isDisliked, like, dislike, userId, didDispyaed, blockUi }: {
     userData: IUserDataDto,
@@ -32,80 +33,77 @@ const SpinCard = ({ userData, nextCard, prevCard, isLiked, isDisliked, like, dis
     }, [userData])
     return (
         <div className={`spin-card ${isLiked && 'spin-card--liked'} ${isDisliked && 'spin-card--disliked'}`}>
-            <div className="images__wrapper">
 
-                <div className="name_age__wrapper">
-                    <h1 className='spin-name_age__title'>{userData.name || '-'}, {userData.age}</h1>
-                </div>
-                <button className="images__next-btn" onClick={() => setPhotos(prev => {
-                    if (prev !== userData.images.length - 1) return prev + 1
-                    else return prev
-                })}></button>
-                <button className="images__prev-btn" onClick={() => setPhotos(prev => {
-                    if (prev !== 0) return prev - 1
-                    else return prev
-                })}></button>
-                {userData.images.length !== 0 && isShowing
+            <div className="spin-card__scroll">
+                <div className="images__wrapper">
 
-                    ? <img src={process.env.NEXT_PUBLIC_API_URL + '/images/' + userData.images[photos]?.fileName} className='spin-card__img' />
-                    : <></>
-                }
-                <div className="images__slider-points">
-                    {userData.images.map((item, id) => {
+                    <div className="name_age__wrapper">
+                        <h1 className='spin-name_age__title'>{userData.name || '-'}, {userData.age}</h1>
+                    </div>
+                    <button className="images__next-btn" onClick={() => setPhotos(prev => {
+                        if (prev !== userData.images.length - 1) return prev + 1
+                        else return prev
+                    })}></button>
+                    <button className="images__prev-btn" onClick={() => setPhotos(prev => {
+                        if (prev !== 0) return prev - 1
+                        else return prev
+                    })}></button>
+                    {userData.images.length !== 0 && isShowing
 
-                        return <div key={id} className={`images-point ${photos === id && 'images-point--active'}`}>
+                        ? <img src={process.env.NEXT_PUBLIC_API_URL + '/images/' + userData.images[photos]?.fileName} className='spin-card__img' />
+                        : <></>
+                    }
+                    <div className="images__slider-points">
+                        {userData.images.map((item, id) => {
 
-                        </div>
-                    })}
-                </div>
-                <button
-                    onClick={() => prevCard()}
-                    className='spin-card__back-btn'
-                >
-                    <svg
-                        version="1.1"
-                        id="Layer_1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                        x="0px"
-                        y="0px"
-                        viewBox="0 0 122.88 98.86"
-                        className='spin-card__back-svg'
-                        xmlSpace="preserve"
+                            return <div key={id} className={`images-point ${photos === id && 'images-point--active'}`}>
+
+                            </div>
+                        })}
+                    </div>
+                    <button
+                        onClick={() => prevCard()}
+                        className='spin-card__back-btn'
                     >
-                        <style
-                            type="text/css"
-                            dangerouslySetInnerHTML={{
-                                __html: ".st0{fill-rule:evenodd;clip-rule:evenodd;}"
-                            }}
-                        />
-                        <g>
-                            <path
-                                className="st0"
-                                d="M0,49.43l48.93,49.43V74.23c30.94-6.41,55.39,0.66,73.95,24.19c-3.22-48.4-36.29-71.76-73.95-73.31V0L0,49.43 L0,49.43L0,49.43z"
+                        <svg
+                            version="1.1"
+                            id="Layer_1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlnsXlink="http://www.w3.org/1999/xlink"
+                            x="0px"
+                            y="0px"
+                            viewBox="0 0 122.88 98.86"
+                            className='spin-card__back-svg'
+                            xmlSpace="preserve"
+                        >
+                            <style
+                                type="text/css"
+                                dangerouslySetInnerHTML={{
+                                    __html: ".st0{fill-rule:evenodd;clip-rule:evenodd;}"
+                                }}
                             />
-                        </g>
-                    </svg>
-                </button>
+                            <g>
+                                <path
+                                    className="st0"
+                                    d="M0,49.43l48.93,49.43V74.23c30.94-6.41,55.39,0.66,73.95,24.19c-3.22-48.4-36.29-71.76-73.95-73.31V0L0,49.43 L0,49.43L0,49.43z"
+                                />
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+                <button className="spin-card__msg-link">Write a message...</button>
+
+                <h3 className='spin-card__city'>{userData.city}</h3>
+                <p className='spin-card__desc'>
+                    {userData.description}
+                </p>
             </div>
-            <button
-                onClick={() => setIsDisplayInfo(prev => !prev)}
-                className="spin__info-btn"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    x="0px"
-                    y="0px"
-                    width="122.88px"
-                    height="80.593px"
-                    viewBox="0 0 122.88 80.593"
-                    xmlSpace="preserve"
-                    className={`info-btn__svg ${isDisplayInfo && 'info-btn__svg--active'}`}
-                >
-                    <path d="M122.88 0L122.88 30.82 61.44 80.593 0 30.82 0 0 61.44 49.772 122.88 0z" />
-                </svg>
-            </button>
-            <SpinInfo city={userData.city || ''} description={userData.description || ''} isDisplayInfo={isDisplayInfo} />
+            
+
+
+
+
+
 
 
             <div className='btn-wrapper'>
@@ -129,6 +127,7 @@ const SpinCard = ({ userData, nextCard, prevCard, isLiked, isDisliked, like, dis
                         </g>
                     </svg>
                 </button>
+
                 <button className='spin__btn' onClick={async () => {
                     await like(userId)
                     nextCard()
@@ -150,7 +149,7 @@ const SpinCard = ({ userData, nextCard, prevCard, isLiked, isDisliked, like, dis
                     </svg>
                 </button>
             </div>
-        </div>
+        </div >
     );
 }
 

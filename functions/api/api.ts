@@ -6,7 +6,7 @@ export async function getAuthInfo() {
         method: 'GET'
     })
     const json = await res.json()
-    const authInfo = JSON.parse(json.value)
+    const authInfo: IAuthInfo = JSON.parse(json.value)
     if (res.status === 200) return authInfo
     return null
 }
@@ -20,17 +20,18 @@ export async function refreshToken() {
 
 
 export async function requestWrapper(
-    requset: (authInfo: { isAuth: boolean, token: string }, body?: any) => Promise<Response>,
+    requset: (authInfo: IAuthInfo, body?: any) => Promise<Response>,
     response: (data: any) => any,
     reject: () => any,
     body?: any
 ) {
-    const authInfo: { isAuth: boolean, token: string } = await getAuthInfo()
+    const authInfo: IAuthInfo | null = await getAuthInfo()
     if (authInfo && authInfo.isAuth && authInfo.token) {
         const res = await requset(authInfo, body)
         if (res.status === 200) {
             const data = await res.json()
             response(data)
+            return data
         }
         else if (res.status === 403) {
             const refreshRes: RequestCookie | undefined = await refreshToken()
@@ -39,6 +40,7 @@ export async function requestWrapper(
             if (res.status === 200) {
                 const data = await res.json()
                 response(data)
+                return data
             }
             else reject()
         }

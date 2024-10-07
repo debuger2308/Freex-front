@@ -3,7 +3,6 @@ import Link from 'next/link';
 import './auth.css'
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import { IUserCredentials } from '@/interfaces/IUserCredentials';
 
 

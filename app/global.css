@@ -2,7 +2,7 @@
     --background: #dcdcdc;
     --foreground: #000000;
     --shadowcolor: #5c5c5c;
-    --maincolor: #4e8517;
+    --maincolor: #8f3efa;
     --additional: #b6c744fd;
     --error: brown;
 }
@@ -11,7 +11,7 @@
     --background: #000000;
     --foreground: #ebebeb;
     --shadowcolor: #313131;
-    --maincolor: #76c527;
+    --maincolor: #8f3efa;
     --additional: #e7fd58fd;
     --error: brown;
 
@@ -22,8 +22,11 @@ body {
     flex-direction: column;
     margin: 0;
     background-color: var(--background);
+    color: var(--foreground);
 }
-
+button{
+    color: var(--foreground);
+}   
 .container {
     max-width: 1200px;
     margin: 0 auto;

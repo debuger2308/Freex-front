@@ -1,28 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
-
+import { jwtDecode } from 'jwt-decode';
 export async function middleware(req: NextRequest) {
 
     let res = NextResponse.next()
 
     const cookieStore = cookies()
     let authInfo: { isAuth: boolean, token: string } = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
-   
+
     if (authInfo && authInfo.isAuth === true) {
         const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
             method: 'POST',
             credentials: 'include',
             headers: new Headers(req.headers)
         })
-        
+
         if (backendRes.status === 201) {
             const data = await backendRes.json()
 
             res = NextResponse.next({
                 headers: new Headers({ 'Set-Cookie': `${backendRes.headers.getSetCookie()}` }),
             })
+            const userdata = jwtDecode(data.token)
             res.cookies.set('auth-info', JSON.stringify({
                 isAuth: true,
+                userdata: jwtDecode(data.token),
                 token: data.token
             }), { maxAge: 1000 * 60, httpOnly: true })
         }
@@ -51,5 +53,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/auth/login', '/auth/registration', '/', '/userdata', '/spin'],
+    matcher: ['/auth/login', '/auth/registration', '/', '/userdata', '/spin', '/chats'],
 }

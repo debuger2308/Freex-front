@@ -74,6 +74,8 @@ const Spin = () => {
 
     async function setData() {
         setBlockUi(true)
+
+        // Upload data
         await requestWrapper(getUsersDataRequest, (data: { usersData: IUserDataDto[], usersIdVotes: IVotedDate[] }) => {
             const usersId = data.usersData.map(item => item.userId)
             const votedCards = data.usersIdVotes.filter(item => usersId.includes(item.votedUserId))
@@ -83,16 +85,19 @@ const Spin = () => {
             setFrontCard(votedCards.length)
         }, () => { router.refresh() })
 
+
         setLikedCard([])
         setBlockUi(false)
     }
 
+    // Scroll card to next
     function nextCard() {
         setFrontCard(prev => {
             if (frontCard < usersData.length) return prev + 1
             else return usersData.length
         })
     }
+    // scroll card to prev
     function prevCard() {
         setFrontCard(prev => {
             if (frontCard > 0) return prev - 1
@@ -100,6 +105,8 @@ const Spin = () => {
         })
     }
 
+
+    
     async function dislike(id: number) {
         setBlockUi(true)
         if (id === -1) {

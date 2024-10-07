@@ -3,9 +3,12 @@
     flex-direction: column;
     gap: 30px;
     width: 300px;
-    
+    color: var(--foreground);
 }
 
+.searh-p-form input {
+    color: var(--foreground);
+}
 
 .gender-wrapper {
     padding: 15px 0;
@@ -39,6 +42,7 @@
     66% {
         transform: rotate(-45deg);
     }
+
     to {
         transform: rotate(-0deg);
     }
@@ -60,12 +64,14 @@
     gap: 5px;
     font-size: 24px;
 }
+
 .gender__label:hover {
     color: var(--additional);
 }
 
 
 .userdata__form-btn {
+    color: var(--foreground);
     margin-top: 20px;
     font-size: 30px;
     padding: 10px;
@@ -75,7 +81,7 @@
     transition: all .3s;
 }
 
-.userdata__form-btn--activated{
+.userdata__form-btn--activated {
     color: var(--maincolor);
     background-color: var(--background);
     border: 3px solid var(--additional);
@@ -104,6 +110,7 @@
     background-color: #000000;
     color: var(--maincolor);
 }
-.userdata__form-btn--activated:hover{
+
+.userdata__form-btn--activated:hover {
     border: 3px solid var(--additional);
 }

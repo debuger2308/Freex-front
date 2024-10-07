@@ -1,5 +1,6 @@
 .spin-card__subtitle {
     font-size: 36px;
+    color: var(--additional);
 }
 .spin-card__title {
     font-size: 24px;

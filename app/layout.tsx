@@ -7,6 +7,7 @@ import './global.css'
 import { ColorTheme } from '@/providers/ColorTheme'
 import Header from '@/components/header/Header'
 import { cookies } from 'next/headers'
+import { SocketProvider } from '@/providers/SocketProvider'
 
 
 
@@ -32,11 +33,13 @@ export default async function RootLayout({
 		<html lang="en">
 			<body className={inter.className}>
 				<ColorTheme>
-					<div className="wrapper">
-						<Header session={session} />
-						{children}
-						<Footer />
-					</div>
+					<SocketProvider session={session}>
+						<div className="wrapper">
+							<Header session={session} />
+							{children}
+							<Footer />
+						</div>
+					</SocketProvider>
 				</ColorTheme>
 			</body>
 		</html>
