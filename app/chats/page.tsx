@@ -357,7 +357,7 @@ const Chats = () => {
                                         <h3 className="list-item__name">{excludeUserData(chat.userData, userData?.userdata?.id || -1)?.name}</h3>
                                         <p className="list-item__message">
                                             {chat.messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).at(-1)?.messageType === 'system'
-                                                ? chat.messages.at(-1)?.message?.replace(`&${userData?.userdata.id}&`, `You`).replace(`&${excludeUserData(chat.userData, userData?.userdata?.id || -1)?.userId}&`, `${excludeUserData(chat.userData, userData?.userdata?.id || -1)?.name}`)
+                                                ? chat.messages.at(-1)?.message?.replace(`&${userData?.userdata?.id}&`, `You`).replace(`&${excludeUserData(chat.userData, userData?.userdata?.id || -1)?.userId}&`, `${excludeUserData(chat.userData, userData?.userdata?.id || -1)?.name}`)
                                                 : chat.messages.at(-1)?.message
                                             }
                                         </p>

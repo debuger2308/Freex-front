@@ -24,7 +24,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.json({}, { headers: preflightHeaders })
     }
 
-    const response = NextResponse.next()
+    let response = NextResponse.next()
 
     if (isAllowedOrigin) {
         response.headers.set('Access-Control-Allow-Origin', origin)
@@ -34,7 +34,7 @@ export async function middleware(req: NextRequest) {
         response.headers.set(key, value)
     })
 
-    let res = NextResponse.next()
+
 
     const cookieStore = cookies()
     let authInfo: { isAuth: boolean, token: string } = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
@@ -46,24 +46,25 @@ export async function middleware(req: NextRequest) {
             const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
-                headers: new Headers(req.headers)
+                headers: new Headers(req.headers),
+
             })
-    
+            
             if (backendRes.status === 201) {
                 const data = await backendRes.json()
-    
-                res = NextResponse.next({
+                
+                response = NextResponse.next({
                     headers: new Headers({ 'Set-Cookie': `${backendRes.headers.getSetCookie()}` }),
                 })
                 const userdata = jwtDecode(data.token)
-                res.cookies.set('auth-info', JSON.stringify({
+                response.cookies.set('auth-info', JSON.stringify({
                     isAuth: true,
                     userdata: jwtDecode(data.token),
                     token: data.token
                 }), { maxAge: 1000 * 60, httpOnly: true })
             }
             else {
-                res.cookies.set('auth-info', JSON.stringify({
+                response.cookies.set('auth-info', JSON.stringify({
                     isAuth: false,
                     token: ''
                 }), { maxAge: 1000 * 60, httpOnly: true })
@@ -71,7 +72,7 @@ export async function middleware(req: NextRequest) {
             }
         }
     } catch (error) {
-        console.log(error);
+        
     }
 
     if (req.nextUrl.pathname === '/auth/login' && authInfo?.isAuth) {
@@ -88,7 +89,7 @@ export async function middleware(req: NextRequest) {
 
 
 
-    return res
+    return response
 }
 
 export const config = {
