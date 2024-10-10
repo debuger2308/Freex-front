@@ -30,8 +30,6 @@ export async function middleware(req: NextRequest) {
     })
 
 
-    let res = NextResponse.next()
-
     const cookieStore = cookies()
     let authInfo: { isAuth: boolean, token: string } = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
 
@@ -47,29 +45,24 @@ export async function middleware(req: NextRequest) {
             })
 
             if (backendRes.status === 201) {
-
                 const data = await backendRes.json()
-
-                res = NextResponse.next({
-                    headers: new Headers({ 'Set-Cookie': `${backendRes.headers.getSetCookie()}` }),
-                })
-                res.cookies.set('auth-info', JSON.stringify({
+                response.headers.set('Set-Cookie', `${backendRes.headers.getSetCookie()}`)
+                response.cookies.set('auth-info', JSON.stringify({
                     isAuth: true,
                     userdata: jwtDecode(data.token),
                     token: data.token
                 }), { maxAge: 1000 * 60, httpOnly: true })
-                authInfo.isAuth = true
             }
             else {
-                throw `${backendRes.status}`
-                res.cookies.set('auth-info', JSON.stringify({
+
+                response.cookies.set('auth-info', JSON.stringify({
                     isAuth: false,
                     token: ''
                 }), { maxAge: 1000 * 60, httpOnly: true })
                 authInfo.isAuth = false
             }
         } catch (error) {
-            alert(error)
+            console.log(error);
         }
     }
 
@@ -86,7 +79,7 @@ export async function middleware(req: NextRequest) {
         }
     }
 
-    return res
+    return response
 }
 
 export const config = {
