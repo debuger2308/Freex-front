@@ -35,35 +35,40 @@ export async function middleware(req: NextRequest) {
     const cookieStore = cookies()
     let authInfo: { isAuth: boolean, token: string } = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
 
-    const headers = new Headers()
-    headers.set('cookie', `${req.headers.get("cookie")}`)
+
     if (authInfo && authInfo.isAuth === true) {
-        const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: headers
-        })
-
-        if (backendRes.status === 201) {
-
-            const data = await backendRes.json()
-
-            res = NextResponse.next({
-                headers: new Headers({ 'Set-Cookie': `${backendRes.headers.getSetCookie()}` }),
+        try {
+            const headers = new Headers()
+            headers.set('cookie', `${req.headers.get("cookie")}`)
+            const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: headers
             })
-            res.cookies.set('auth-info', JSON.stringify({
-                isAuth: true,
-                userdata: jwtDecode(data.token),
-                token: data.token
-            }), { maxAge: 1000 * 60, httpOnly: true })
-            authInfo.isAuth = true
-        }
-        else {
-            res.cookies.set('auth-info', JSON.stringify({
-                isAuth: false,
-                token: ''
-            }), { maxAge: 1000 * 60, httpOnly: true })
-            authInfo.isAuth = false
+
+            if (backendRes.status === 201) {
+
+                const data = await backendRes.json()
+
+                res = NextResponse.next({
+                    headers: new Headers({ 'Set-Cookie': `${backendRes.headers.getSetCookie()}` }),
+                })
+                res.cookies.set('auth-info', JSON.stringify({
+                    isAuth: true,
+                    userdata: jwtDecode(data.token),
+                    token: data.token
+                }), { maxAge: 1000 * 60, httpOnly: true })
+                authInfo.isAuth = true
+            }
+            else {
+                res.cookies.set('auth-info', JSON.stringify({
+                    isAuth: false,
+                    token: ''
+                }), { maxAge: 1000 * 60, httpOnly: true })
+                authInfo.isAuth = false
+            }
+        } catch (error) {
+            alert(error)
         }
     }
 
