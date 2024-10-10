@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
 import { jwtDecode } from 'jwt-decode';
 
-const allowedOrigins = ['*']
+const allowedOrigins = ['https://freex-front.vercel.app/']
 
 const corsOptions = {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -51,14 +51,9 @@ export async function middleware(req: NextRequest) {
             }), { maxAge: 1000 * 60, httpOnly: true })
         }
         else {
- 
             response.cookies.set('auth-info', JSON.stringify({
                 isAuth: false,
                 token: ''
-            }), { maxAge: 1000 * 60, httpOnly: true })
-            response.cookies.set('response', JSON.stringify({
-                status: backendRes.status,
-                res: backendRes
             }), { maxAge: 1000 * 60, httpOnly: true })
             authInfo.isAuth = false
         }
