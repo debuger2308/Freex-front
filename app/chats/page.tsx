@@ -576,7 +576,9 @@ const Chats = () => {
                                                         { userId: excludeUserData(activeChat?.userData, userData?.userdata?.id || -1)?.userId, message: formattedString })
                                                 }
                                                 setInputValue('')
-                                                inputRef?.current?.setHTMLUnsafe('')
+                                                if (inputRef.current) {
+                                                    inputRef.current.value = '';
+                                                }
                                                 inputRef.current?.focus()
                                             }
                                         }}
@@ -601,7 +603,9 @@ const Chats = () => {
                                                     { userId: excludeUserData(activeChat?.userData, userData?.userdata?.id || -1)?.userId, message: formattedString })
                                             }
                                             setInputValue('')
-                                            inputRef?.current?.setHTMLUnsafe('')
+                                            if (inputRef.current) {
+                                                inputRef.current.value = '';
+                                            }
                                             inputRef.current?.focus()
                                         }}
 
