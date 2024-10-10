@@ -106,7 +106,7 @@ const Spin = () => {
     }
 
 
-    
+
     async function dislike(id: number) {
         setBlockUi(true)
         if (id === -1) {
@@ -212,7 +212,9 @@ const Spin = () => {
                     frontCard={frontCard}
                     setFrontCard={setFrontCard}
                     nextCard={nextCard}
-                    children={[...usersData.map((item, id) => {
+                >
+
+                    {usersData.map((item, id) => {
                         return <SpinCard
                             blockUi={blockUi}
                             userId={item.userId}
@@ -226,12 +228,13 @@ const Spin = () => {
                             prevCard={prevCard}
                             didDispyaed={id === frontCard}
                         />
-                    }),
+                    })}
                     <LastSpinCard
                         key={usersData.length}
                         like={like}
                     />
-                    ]} />
+
+                </SpinSlider>
             </div>
         </main>
     );

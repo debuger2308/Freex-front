@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import './SpinSlider.css'
 
 const SpinSlider = ({
-    children, setFrontCard, frontCard, nextCard, like, dislike, activeCardId, blockUi
+    setFrontCard, frontCard, nextCard, like, dislike, activeCardId, blockUi, children
 }: {
     activeCardId: number,
     children: React.ReactNode[],
