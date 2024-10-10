@@ -56,6 +56,7 @@ export async function middleware(req: NextRequest) {
                 userdata: jwtDecode(data.token),
                 token: data.token
             }), { maxAge: 1000 * 60, httpOnly: true })
+            authInfo.isAuth = true
         }
         else {
             res.cookies.set('auth-info', JSON.stringify({
