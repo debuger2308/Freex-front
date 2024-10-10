@@ -24,7 +24,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.json({}, { headers: preflightHeaders })
     }
 
-    let response = NextResponse.next()
+    const response = NextResponse.next()
 
     if (isAllowedOrigin) {
         response.headers.set('Access-Control-Allow-Origin', origin)
@@ -52,11 +52,7 @@ export async function middleware(req: NextRequest) {
             
             if (backendRes.status === 201) {
                 const data = await backendRes.json()
-                
-                response = NextResponse.next({
-                    headers: new Headers({ 'Set-Cookie': `${backendRes.headers.getSetCookie()}` }),
-                })
-                const userdata = jwtDecode(data.token)
+                response.headers.set('Set-Cookie', `${backendRes.headers.getSetCookie()}`)
                 response.cookies.set('auth-info', JSON.stringify({
                     isAuth: true,
                     userdata: jwtDecode(data.token),
