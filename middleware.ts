@@ -17,14 +17,15 @@ export async function middleware(req: NextRequest) {
             credentials: 'include',
             headers: headers
         })
-        
+
         if (backendRes.status === 201) {
+
             const data = await backendRes.json()
 
             res = NextResponse.next({
                 headers: new Headers({ 'Set-Cookie': `${backendRes.headers.getSetCookie()}` }),
             })
-            const userdata = jwtDecode(data.token)
+            console.log('here');
             res.cookies.set('auth-info', JSON.stringify({
                 isAuth: true,
                 userdata: jwtDecode(data.token),
@@ -32,6 +33,7 @@ export async function middleware(req: NextRequest) {
             }), { maxAge: 1000 * 60, httpOnly: true })
         }
         else {
+            console.log('here2');
             res.cookies.set('auth-info', JSON.stringify({
                 isAuth: false,
                 token: ''
