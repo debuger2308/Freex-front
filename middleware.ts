@@ -2,13 +2,39 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
 import { jwtDecode } from 'jwt-decode';
 
+const allowedOrigins = ['https://acme.com', 'https://my-app.org']
+
+const corsOptions = {
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
 
 export async function middleware(req: NextRequest) {
+
+    const origin = req.headers.get('origin') ?? ''
+    const isAllowedOrigin = allowedOrigins.includes(origin)
+    const isPreflight = req.method === 'OPTIONS'
+    if (isPreflight) {
+        const preflightHeaders = {
+            ...(isAllowedOrigin && { 'Access-Control-Allow-Origin': origin }),
+            ...corsOptions,
+        }
+        return NextResponse.json({}, { headers: preflightHeaders })
+    }
+    const response = NextResponse.next()
+    if (isAllowedOrigin) {
+        response.headers.set('Access-Control-Allow-Origin', origin)
+    }
+    Object.entries(corsOptions).forEach(([key, value]) => {
+        response.headers.set(key, value)
+    })
+
+
     let res = NextResponse.next()
-    
+
     const cookieStore = cookies()
     let authInfo: { isAuth: boolean, token: string } = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
-    
+
     const headers = new Headers()
     headers.set('cookie', `${req.headers.get("cookie")}`)
     if (authInfo && authInfo.isAuth === true) {
@@ -25,7 +51,6 @@ export async function middleware(req: NextRequest) {
             res = NextResponse.next({
                 headers: new Headers({ 'Set-Cookie': `${backendRes.headers.getSetCookie()}` }),
             })
-            console.log('here');
             res.cookies.set('auth-info', JSON.stringify({
                 isAuth: true,
                 userdata: jwtDecode(data.token),
@@ -33,7 +58,6 @@ export async function middleware(req: NextRequest) {
             }), { maxAge: 1000 * 60, httpOnly: true })
         }
         else {
-            console.log('here2');
             res.cookies.set('auth-info', JSON.stringify({
                 isAuth: false,
                 token: ''
