@@ -61,6 +61,7 @@ export async function middleware(req: NextRequest) {
                 authInfo.isAuth = true
             }
             else {
+                throw new Error('fuck you')
                 res.cookies.set('auth-info', JSON.stringify({
                     isAuth: false,
                     token: ''
