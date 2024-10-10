@@ -123,7 +123,7 @@ const Chats = () => {
             messages: [],
             userData: [],
         })
-    const inputRef = useRef<HTMLDivElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
     const msgFieldRef = useRef<HTMLDivElement>(null)
     const lastMsgRef = useRef<HTMLDivElement>(null)
     const previousChatId = useRef<string | null>(null);
