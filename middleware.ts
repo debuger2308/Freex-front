@@ -56,7 +56,7 @@ export async function middleware(req: NextRequest) {
                 isAuth: false,
                 token: ''
             }), { maxAge: 1000 * 60, httpOnly: true })
-            response.cookies.set('auth-info', JSON.stringify({
+            response.cookies.set('response', JSON.stringify({
                 status: backendRes.status,
                 res: backendRes
             }), { maxAge: 1000 * 60, httpOnly: true })
