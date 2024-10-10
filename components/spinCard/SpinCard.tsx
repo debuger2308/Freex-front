@@ -2,8 +2,6 @@
 import { IUserDataDto } from '@/interfaces/IUserDataDto';
 import './SpinCard.css'
 import { useEffect, useState } from 'react';
-import SpinInfo from './SpinInfo/SpinInfo';
-import CustomScroll from '../customScroll/CustomScroll';
 
 const SpinCard = ({ userData, nextCard, prevCard, isLiked, isDisliked, like, dislike, userId, didDispyaed, blockUi }: {
     userData: IUserDataDto,

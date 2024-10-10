@@ -213,8 +213,7 @@ const Spin = () => {
                     setFrontCard={setFrontCard}
                     nextCard={nextCard}
                 >
-
-                    {usersData.map((item, id) => {
+                    {[...usersData.map((item, id) => {
                         return <SpinCard
                             blockUi={blockUi}
                             userId={item.userId}
@@ -228,12 +227,12 @@ const Spin = () => {
                             prevCard={prevCard}
                             didDispyaed={id === frontCard}
                         />
-                    })}
+                    }),
                     <LastSpinCard
                         key={usersData.length}
                         like={like}
                     />
-
+                    ]}
                 </SpinSlider>
             </div>
         </main>

@@ -5,6 +5,7 @@ import { IUserCredentials } from '@/interfaces/IUserCredentials';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+
 const Registration = () => {
 
     async function restApiRegistration(user: IUserCredentials) {
