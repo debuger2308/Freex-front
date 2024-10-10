@@ -276,7 +276,9 @@ const Chats = () => {
                 }
 
                 else {
-                    inputRef?.current?.setHTMLUnsafe('')
+                    if (inputRef.current) {
+                        inputRef.current.value = '';
+                    }
                     lastMsgRef.current?.scrollIntoView({ behavior: 'auto' });
                 }
 
