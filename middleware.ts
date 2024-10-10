@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
 import { jwtDecode } from 'jwt-decode';
 
-const allowedOrigins = ['https://acme.com', 'https://my-app.org']
+const allowedOrigins = ['*']
 
 const corsOptions = {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -10,7 +10,6 @@ const corsOptions = {
 }
 
 export async function middleware(req: NextRequest) {
-
     const origin = req.headers.get('origin') ?? ''
     const isAllowedOrigin = allowedOrigins.includes(origin)
     const isPreflight = req.method === 'OPTIONS'
@@ -29,10 +28,8 @@ export async function middleware(req: NextRequest) {
         response.headers.set(key, value)
     })
 
-
     const cookieStore = cookies()
     let authInfo: { isAuth: boolean, token: string } = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
-
 
     if (authInfo && authInfo.isAuth === true) {
         try {
@@ -66,7 +63,6 @@ export async function middleware(req: NextRequest) {
         }
     }
 
-
     if (req.nextUrl.pathname === '/auth/login' && authInfo?.isAuth) {
         return NextResponse.redirect(new URL("/", req.url))
     }
@@ -78,7 +74,6 @@ export async function middleware(req: NextRequest) {
             return NextResponse.redirect(new URL("/auth/login", req.url))
         }
     }
-
     return response
 }
 
