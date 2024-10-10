@@ -79,7 +79,7 @@ const SearchParamsForm = ({ action }: { action: () => void }) => {
         <form
             className="searh-p-form"
             action={async (formData) => {
-                const authInfo: { isAuth: true, token: string } = await getAuthInfo()
+                const authInfo: IAuthInfo | null = await getAuthInfo()
                 setActionIsLoading(true)
                 const data: ISearchParams = {
                     distance: Number(distance),
