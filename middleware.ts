@@ -1,28 +1,56 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
 import { jwtDecode } from 'jwt-decode';
-import { IAuthInfo } from "./interfaces/IAuthInfo";
 
+const allowedOrigins = ['*']
+
+const corsOptions = {
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
 
 export async function middleware(req: NextRequest) {
-
+    const origin = req.headers.get('origin') ?? ''
+    const isAllowedOrigin = allowedOrigins.includes(origin)
+    const isPreflight = req.method === 'OPTIONS'
+    if (isPreflight) {
+        const preflightHeaders = {
+            ...(isAllowedOrigin && { 'Access-Control-Allow-Origin': origin }),
+            ...corsOptions,
+        }
+        return NextResponse.json({}, { headers: preflightHeaders })
+    }
     const response = NextResponse.next()
+    if (isAllowedOrigin) {
+        response.headers.set('Access-Control-Allow-Origin', origin)
+    }
+    Object.entries(corsOptions).forEach(([key, value]) => {
+        response.headers.set(key, value)
+    })
 
     const cookieStore = cookies()
-    let authInfo: IAuthInfo = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
+    let authInfo: { isAuth: boolean, token: string } = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
+    const toket: { exp: number } = jwtDecode(authInfo.token)
 
-    if (authInfo && authInfo.isAuth === true) {
-        // const token: { nickname: string, id: number, exp: number, iat: number } = jwtDecode(authInfo.token)
-        // console.log(token);
+    if (authInfo && authInfo.isAuth === true && new Date().getTime() > toket.exp * 1000) {
         const headers = new Headers()
         headers.set('cookie', `${req.headers.get("cookie")}`)
-        const backendRes = await fetch(`${req.nextUrl.origin}/api/auth/refresh`, {
+        const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
             method: 'POST',
             credentials: 'include',
             headers: headers
         })
 
-        if (backendRes.status !== 200) {
+        if (backendRes.status === 201) {
+            const data = await backendRes.json()
+            response.headers.set('Set-Cookie', `${backendRes.headers.getSetCookie()}`)
+            response.cookies.set('auth-info', JSON.stringify({
+                isAuth: true,
+                userdata: jwtDecode(data.token),
+                token: data.token
+            }), { maxAge: 1000 * 60, httpOnly: true })
+        }
+        else {
             response.cookies.set('auth-info', JSON.stringify({
                 isAuth: false,
                 token: ''
