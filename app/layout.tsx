@@ -8,6 +8,9 @@ import { ColorTheme } from '@/providers/ColorTheme'
 import Header from '@/components/header/Header'
 import { cookies } from 'next/headers'
 import { SocketProvider } from '@/providers/SocketProvider'
+import { IAuthInfo } from '@/interfaces/IAuthInfo'
+import { refreshToken } from '@/functions/api/api'
+import { usePathname } from 'next/navigation'
 
 
 
@@ -27,7 +30,8 @@ export default async function RootLayout({
 }) {
 
 	const cookie = cookies().get('auth-info') || null
-	const session: { isAuth: boolean, token: string } | null = JSON.parse(cookie?.value || '{}') || null
+	const session: IAuthInfo | null = JSON.parse(cookie?.value || '{}') || null
+	
 
 	return (
 		<html lang="en">
