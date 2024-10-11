@@ -30,9 +30,9 @@ export async function middleware(req: NextRequest) {
 
     const cookieStore = cookies()
     let authInfo: { isAuth: boolean, token: string } = JSON.parse(cookieStore.get('auth-info')?.value || '{}')
-    const toket: { exp: number } = jwtDecode(authInfo.token)
+    const token: { exp: number } = jwtDecode(authInfo.token)
 
-    if (authInfo && authInfo.isAuth === true && new Date().getTime() > toket.exp * 1000) {
+    if (authInfo && authInfo.isAuth === true && token && new Date().getTime() > token?.exp * 1000) {
         const headers = new Headers()
         headers.set('cookie', `${req.headers.get("cookie")}`)
         const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
