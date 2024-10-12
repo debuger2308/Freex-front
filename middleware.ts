@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
 import { jwtDecode } from 'jwt-decode';
 
-const allowedOrigins = ['*']
+const allowedOrigins = ['http://localhost:3000/', 'https://freex-backend-production.up.railway.app/']
 
 const corsOptions = {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -10,6 +10,7 @@ const corsOptions = {
 }
 
 export async function middleware(req: NextRequest) {
+    const response = NextResponse.next()
     const origin = req.headers.get('origin') ?? ''
     const isAllowedOrigin = allowedOrigins.includes(origin)
     const isPreflight = req.method === 'OPTIONS'
@@ -20,7 +21,6 @@ export async function middleware(req: NextRequest) {
         }
         return NextResponse.json({}, { headers: preflightHeaders })
     }
-    const response = NextResponse.next()
     if (isAllowedOrigin) {
         response.headers.set('Access-Control-Allow-Origin', origin)
     }
@@ -33,12 +33,13 @@ export async function middleware(req: NextRequest) {
 
     if (authInfo && authInfo.isAuth === true) {
         try {
-            const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+            const headers = new Headers()
+            headers.set('cookie', `${req.headers.get("cookie")}`)
+            const backendRes = await fetch(`https://freex-backend-production.up.railway.app/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
-                headers: new Headers(req.headers)
+                headers: headers
             })
-            console.log(backendRes.status);
             if (backendRes.status === 201) {
                 const data = await backendRes.json()
                 response.headers.set('Set-Cookie', `${backendRes.headers.getSetCookie()}`)
