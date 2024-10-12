@@ -35,11 +35,12 @@ export async function middleware(req: NextRequest) {
         try {
             const headers = new Headers()
             headers.set('cookie', `${req.headers.get("cookie")}`)
-            const backendRes = await fetch(`https://freex-backend-production.up.railway.app/auth/refresh`, {
+            const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: headers
             })
+
             if (backendRes.status === 201) {
                 const data = await backendRes.json()
                 response.headers.set('Set-Cookie', `${backendRes.headers.getSetCookie()}`)
