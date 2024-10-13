@@ -34,7 +34,8 @@ export async function middleware(req: NextRequest) {
     if (authInfo && authInfo.isAuth === true) {
         try {
             const headers = new Headers()
-            headers.set('cookie', `${req.headers.get("cookie")}`)
+            headers.set('cookie', `${req.headers.get("cookie")}`,)
+            headers.set('Set-Cookie', `${req.headers.getSetCookie()}`)
             const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
