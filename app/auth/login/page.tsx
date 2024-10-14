@@ -28,7 +28,7 @@ const Auth = () => {
             }),
             method: 'POST',
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
             },
         })
         return nextApiResponse

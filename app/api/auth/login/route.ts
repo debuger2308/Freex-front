@@ -1,9 +1,9 @@
 
 import { cookies } from 'next/headers'
-import type { NextApiRequest, NextApiResponse } from 'next'
 import { IAuthInfo } from '@/interfaces/IAuthInfo'
+import { NextRequest } from 'next/server';
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: NextRequest, ) {
 
     const data: IAuthInfo = await req.json()
 
