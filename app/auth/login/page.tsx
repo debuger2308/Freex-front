@@ -9,15 +9,20 @@ import { IUserCredentials } from '@/interfaces/IUserCredentials';
 const Auth = () => {
 
     async function restApiLogin(user: IUserCredentials) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-            body: JSON.stringify(user),
-            method: 'POST',
-            headers: {
-                "Content-type": "application/json",
-            },
-            credentials: "include"
-        })
-        return res
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+                body: JSON.stringify(user),
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json",
+                },
+                credentials: "include",
+                mode: 'cors'
+            })
+            return res
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async function nextApiLogin(data: { token: string }) {
@@ -30,6 +35,7 @@ const Auth = () => {
             headers: {
                 "Content-type": "application/json",
             },
+            credentials: 'include',
         })
         return nextApiResponse
     }
@@ -59,11 +65,11 @@ const Auth = () => {
                         }
                         const restApiResponse = await restApiLogin(user)
 
-                        if (restApiResponse.status === 401 || restApiResponse.status === 406) {
+                        if (restApiResponse?.status === 401 || restApiResponse?.status === 406) {
                             setAuthErros('Wrong nickname or password')
                         }
-                        else if (restApiResponse.status === 201) {
-                            const json = await restApiResponse.json()
+                        else if (restApiResponse?.status === 201) {
+                            const json = await restApiResponse?.json()
                             const apiResponse = await nextApiLogin(json)
                             if (apiResponse.status === 201) router.refresh()
                         }
