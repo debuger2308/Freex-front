@@ -21,6 +21,10 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
         }), { maxAge: 1000 * 60 })
     }
     else {
+        cookies().set('auth-info', JSON.stringify({
+            isAuth: false,
+            token: ''
+        }), { maxAge: 1000 * 60, httpOnly: true })
         return new Response("Unauthorized", {
             status: 401,
         })

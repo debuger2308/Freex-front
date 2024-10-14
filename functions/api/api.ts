@@ -15,6 +15,7 @@ export async function refreshToken() {
         method: 'POST',
         credentials: 'include'
     })
+    // if (res.status === 401) window.location.reload()
     return await res.json()
 }
 
