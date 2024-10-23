@@ -20,7 +20,11 @@ export async function middleware(req: NextRequest) {
 
         if (backendRes.status === 201) {
             const data = await backendRes.json()
-            response.headers.set('Set-Cookie', `${backendRes.headers.getSetCookie()}`)
+            
+            const setCookieHeader = backendRes.headers.get('set-cookie');
+            if (setCookieHeader) {
+                response.headers.set('Set-Cookie', setCookieHeader);
+            }
             response.cookies.set('auth-info', JSON.stringify({
                 isAuth: true,
                 userdata: jwtDecode(data.token),
